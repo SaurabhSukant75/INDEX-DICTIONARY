@@ -1,0 +1,16 @@
+:root {
+  color-scheme: light;
+  --color-background: #f5f3ed;
+  --color-sidebar: #f9f7f1;
+  --color-surface: #fffefa;
+  --color-ink: #20241f;
+  --color-muted: #686b63;
+  --color-line: #e3dfd5;
+  --color-accent: #d5ff58;
+  --color-green: #34654c;
+  --color-blue: #b9d7f6;
+  --color-shadow: 0 12px 36px #24271b0c;
+  --font-body: Arial, ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: Georgia, "Times New Roman", serif;
+  --header-height: 68px;
+}

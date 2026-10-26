@@ -1,0 +1,167 @@
+metadata:
+  generated: "2026-10-27"
+  source_plan: "plan.md"
+  target_tasks: "plan.md (inline task list)"
+
+summary:
+  total_plan_items: 15
+  covered_plan_items: 15
+  missing_plan_items: 0
+  coverage_percentage: 100.0
+  total_tasks_generated: 15
+  orphan_tasks: 0
+
+phases:
+  - phase_id: "Phase-1"
+    phase_name: "Setup"
+    items:
+      - item_id: "1.1"
+        description: "Establish the static project scaffold and verify the stack"
+        tasks:
+          - task_id: "T001"
+            description: "Create a zero-dependency HTML/CSS/JavaScript scaffold and document the static-only boundary."
+            status: "completed"
+        notes: "HTTP smoke check and browser load passed; later tasks remain pending."
+  - phase_id: "Phase-2"
+    phase_name: "Foundational catalog and shell"
+    items:
+      - item_id: "2.1"
+        description: "Define and validate the static catalog"
+        tasks:
+          - task_id: "T002"
+            description: "Add five-book catalog, safe path/reference validator, and focused integrity tests."
+            status: "completed"
+      - item_id: "2.2"
+        description: "Build the responsive library shell and navigation"
+        tasks: [{task_id: "T003", description: "Build semantic shell and static route navigation.", status: "completed"}]
+  - phase_id: "Phase-3"
+    phase_name: "US-01/US-02 discovery"
+    items:
+      - item_id: "3.1"
+        description: "Implement catalog cards, search, filters, and empty/error states"
+        tasks: [{task_id: "T004", description: "Implement catalog search and results states.", status: "completed"}]
+  - phase_id: "Phase-4"
+    phase_name: "US-10 taxonomy"
+    items:
+      - item_id: "4.1"
+        description: "Implement taxonomy browsing and breadcrumbs"
+        tasks: [{task_id: "T005", description: "Implement hierarchical topic navigation.", status: "completed"}]
+  - phase_id: "Phase-5"
+    phase_name: "US-11 graph"
+    items:
+      - item_id: "5.1"
+        description: "Implement bounded concept graph exploration"
+        tasks: [{task_id: "T006", description: "Implement concept graph and textual alternatives.", status: "completed"}]
+  - phase_id: "Phase-6"
+    phase_name: "US-12 learning paths"
+    items:
+      - item_id: "6.1"
+        description: "Implement ordered learning paths"
+        tasks: [{task_id: "T007", description: "Implement sequence navigation and local progress display.", status: "completed"}]
+  - phase_id: "Phase-7"
+    phase_name: "US-03 reader"
+    items:
+      - item_id: "7.1"
+        description: "Implement stable reader routes and isolated HTML rendering"
+        tasks: [{task_id: "T008", description: "Implement iframe reader, route restoration, and navigation.", status: "completed"}]
+      - item_id: "7.2"
+        description: "Connect book navigation events safely"
+        tasks: [{task_id: "T009", description: "Add and validate the book-to-shell page event protocol.", status: "completed"}]
+  - phase_id: "Phase-8"
+    phase_name: "US-04/US-06 local library"
+    items:
+      - item_id: "8.1"
+        description: "Build IndexedDB and private library"
+        tasks:
+          - task_id: "T010"
+            description: "Implement versioned IndexedDB schema and services."
+            status: "completed"
+          - task_id: "T011"
+            description: "Implement saved books, collections, bookmarks, and resume."
+            status: "completed"
+  - phase_id: "Phase-9"
+    phase_name: "US-05 imports"
+    items:
+      - item_id: "9.1"
+        description: "Implement validated local import and lifecycle"
+        tasks: [{task_id: "T012", description: "Implement import validation, sandbox preview, and local lifecycle.", status: "completed"}]
+  - phase_id: "Phase-10"
+    phase_name: "US-08 sharing"
+    items:
+      - item_id: "10.1"
+        description: "Add safe public sharing"
+        tasks: [{task_id: "T013", description: "Implement public share URLs and local-only guard.", status: "completed"}]
+  - phase_id: "Phase-11"
+    phase_name: "US-09 and cross-cutting quality"
+    items:
+      - item_id: "11.1"
+        description: "Complete accessibility, responsive, and reduced-motion behavior"
+        tasks: [{task_id: "T014", description: "Verify keyboard, assistive technology, responsive, and motion behavior.", status: "completed"}]
+      - item_id: "11.2"
+        description: "Verify integrity, privacy, compatibility, and static deployment"
+        tasks: [{task_id: "T015", description: "Run static release validation and document hosting limitations.", status: "completed"}]
+
+missing_plan_items: []
+orphan_tasks: []
+upstream_trace:
+  - plan_item: "1.1"
+    source_requirements: ["FR-040", "FR-041", "FR-042", "NFR-05", "NFR-07"]
+    tasks: ["T001"]
+    full_trace: "FR-040,FR-041,FR-042,NFR-05,NFR-07 → Phase-1.1 → T001"
+  - plan_item: "2.1"
+    source_requirements: ["FR-001", "FR-010", "FR-060", "FR-061", "FR-063", "FR-065", "NFR-08"]
+    tasks: ["T002"]
+    full_trace: "FR-001,FR-010,FR-060,FR-061,FR-063,FR-065,NFR-08 → Phase-2.1 → T002"
+  - plan_item: "2.2"
+    source_requirements: ["FR-001", "FR-004", "FR-010", "NFR-01", "NFR-02", "NFR-07"]
+    tasks: ["T003"]
+    full_trace: "FR-001,FR-004,FR-010,NFR-01,NFR-02,NFR-07 → Phase-2.2 → T003"
+  - plan_item: "3.1"
+    source_requirements: ["FR-001", "FR-002", "FR-003", "FR-004", "FR-010"]
+    tasks: ["T004"]
+    full_trace: "FR-001,FR-002,FR-003,FR-004,FR-010 → Phase-3.1 → T004"
+  - plan_item: "4.1"
+    source_requirements: ["FR-060", "FR-061", "FR-062"]
+    tasks: ["T005"]
+    full_trace: "FR-060,FR-061,FR-062 → Phase-4.1 → T005"
+  - plan_item: "5.1"
+    source_requirements: ["FR-063", "FR-064"]
+    tasks: ["T006"]
+    full_trace: "FR-063,FR-064 → Phase-5.1 → T006"
+  - plan_item: "6.1"
+    source_requirements: ["FR-065", "FR-066"]
+    tasks: ["T007"]
+    full_trace: "FR-065,FR-066 → Phase-6.1 → T007"
+  - plan_item: "7.1"
+    source_requirements: ["FR-004", "FR-011", "FR-012", "FR-013", "NFR-02", "NFR-06"]
+    tasks: ["T008"]
+    full_trace: "FR-004,FR-011,FR-012,FR-013,NFR-02,NFR-06 → Phase-7.1 → T008"
+  - plan_item: "7.2"
+    source_requirements: ["FR-013", "FR-032", "FR-033"]
+    tasks: ["T009"]
+    full_trace: "FR-013,FR-032,FR-033 → Phase-7.2 → T009"
+  - plan_item: "8.1"
+    source_requirements: ["FR-030", "FR-031", "FR-032", "FR-033", "FR-034", "FR-066", "NFR-03", "NFR-05"]
+    tasks: ["T010", "T011"]
+    full_trace: "FR-030,FR-031,FR-032,FR-033,FR-034,FR-066,NFR-03,NFR-05 → Phase-8.1 → T010,T011"
+  - plan_item: "9.1"
+    source_requirements: ["FR-020", "FR-021", "FR-022", "FR-023", "NFR-03", "NFR-05", "NFR-06"]
+    tasks: ["T012"]
+    full_trace: "FR-020,FR-021,FR-022,FR-023,NFR-03,NFR-05,NFR-06 → Phase-9.1 → T012"
+  - plan_item: "10.1"
+    source_requirements: ["FR-050"]
+    tasks: ["T013"]
+    full_trace: "FR-050 → Phase-10.1 → T013"
+  - plan_item: "11.1"
+    source_requirements: ["FR-012", "FR-051", "NFR-01", "NFR-02", "NFR-07"]
+    tasks: ["T014"]
+    full_trace: "FR-012,FR-051,NFR-01,NFR-02,NFR-07 → Phase-11.1 → T014"
+  - plan_item: "11.2"
+    source_requirements: ["FR-004", "FR-023", "FR-041", "FR-042", "NFR-03", "NFR-04", "NFR-05", "NFR-06", "NFR-07", "NFR-08"]
+    tasks: ["T015"]
+    full_trace: "FR-004,FR-023,FR-041,FR-042,NFR-03,NFR-04,NFR-05,NFR-06,NFR-07,NFR-08 → Phase-11.2 → T015"
+validation:
+  passed: true
+  errors: []
+  warnings:
+    - "The FR-040–042 related tasks document the confirmed scope reduction; they do not implement authenticated editor publishing or guaranteed static-file revocation."

@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5f3ed">
+<title>Index Dictionary — UI/UX Prototype</title>
+<style>
+:root{--bg:#f5f3ed;--paper:#fffefa;--ink:#20241f;--muted:#74776f;--line:#e3dfd5;--lime:#d5ff58;--blue:#b9d7f6;--orange:#ff8e62;--green:#34654c;--shadow:0 12px 36px #24271b0c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Arial,ui-sans-serif,system-ui,sans-serif}button,input{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:244px minmax(0,1fr)}.sidebar{height:100vh;position:sticky;top:0;border-right:1px solid var(--line);background:#f9f7f1;padding:22px 15px;display:flex;flex-direction:column;gap:24px}.brand{display:flex;align-items:center;gap:10px;padding:0 8px;font-weight:900;letter-spacing:.09em;font-size:12px}.brand-mark{background:var(--lime);width:34px;height:34px;display:grid;place-items:center;font-weight:900;letter-spacing:0;font-size:14px}.nav-label{font-size:10px;text-transform:uppercase;letter-spacing:.12em;color:#929087;padding:0 11px;margin:7px 0}.nav{display:grid;gap:4px}.nav button{border:0;background:transparent;color:#575b52;text-align:left;padding:10px 11px;border-radius:9px;display:flex;align-items:center;gap:11px;font-size:13px}.nav button:hover,.nav button.active{background:#ecebe3;color:#192019}.nav .ico{width:18px;text-align:center;color:#70766a}.sidebar-bottom{margin-top:auto;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fffefa}.sidebar-bottom strong{font-size:12px}.sidebar-bottom p{font-size:11px;color:var(--muted);margin:5px 0 10px}.sidebar-bottom button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 10px;font-size:11px}.main{min-width:0}.topbar{height:68px;padding:0 clamp(18px,4vw,52px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:18px;background:#f8f6f0}.crumb{color:var(--muted);font-size:12px}.top-actions{display:flex;align-items:center;gap:9px}.searchbox{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:0 11px;width:min(330px,38vw);height:38px}.searchbox input{border:0;outline:0;background:transparent;width:100%;font-size:12px}.avatar{width:34px;height:34px;border:1px solid var(--line);border-radius:50%;display:grid;place-items:center;background:var(--blue);font-size:12px;font-weight:bold}.page-wrap{max-width:1160px;margin:0 auto;padding:clamp(22px,4vw,48px)}.view{display:none}.view.active{display:block}.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--green);font-weight:bold}.page-title{font:500 clamp(34px,5vw,54px)/1.04 Georgia,serif;letter-spacing:-.045em;margin:9px 0 12px}.lede{color:#66695f;max-width:680px;font-size:15px;margin:0 0 25px}.hero{border:1px solid #dedfce;border-radius:16px;background:var(--lime);padding:clamp(22px,4vw,38px);display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:center;min-height:220px}.hero h2{font:500 clamp(35px,5vw,57px)/.98 Georgia,serif;letter-spacing:-.05em;margin:8px 0 11px}.hero p{max-width:520px;color:#414738;margin:0 0 18px}.button{border:1px solid #222820;background:#222820;color:#fff;border-radius:8px;padding:10px 14px;font-size:12px;font-weight:bold}.button.light{background:#fff;color:var(--ink);border-color:var(--line)}.button.small{padding:8px 11px}.hero-art{height:150px;display:grid;place-items:center;position:relative}.book-stack{width:130px;height:155px;background:#fffefa;border:1px solid #30352a;box-shadow:10px 9px 0 #b7d94b;transform:rotate(5deg);padding:16px;display:flex;flex-direction:column;justify-content:space-between;font:11px Georgia,serif}.book-stack b{font:24px/.95 Georgia,serif;letter-spacing:-.04em}.book-stack small{font:9px Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase}.section-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin:30px 0 14px}.section-head h2{font:500 26px Georgia,serif;margin:0}.text-button{border:0;background:transparent;color:#455c3f;font-size:12px;font-weight:bold}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.book-card{background:var(--paper);border:1px solid var(--line);border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .16s,box-shadow .16s}.book-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.cover-art{height:148px;padding:17px;position:relative;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}.cover-art:after{content:"";position:absolute;width:115px;height:115px;border:1px solid #252a2088;border-radius:50%;right:-22px;bottom:-36px}.cover-art .smallcap{font-size:9px;text-transform:uppercase;letter-spacing:.13em}.cover-art strong{font:500 29px/.95 Georgia,serif;letter-spacing:-.04em;max-width:190px;position:relative;z-index:1}.cover-art span{font-size:10px;color:#51554c}.c1{background:#d5ff58}.c2{background:#c9dff5}.c3{background:#f7b59a}.c4{background:#ded7f5}.c5{background:#e7e3d4}.card-body{padding:13px 14px}.card-meta{display:flex;justify-content:space-between;gap:8px;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}.card-body h3{font:500 18px Georgia,serif;margin:8px 0 5px}.card-body p{font-size:12px;line-height:1.45;color:#73766c;margin:0 0 12px;min-height:35px}.tags{display:flex;gap:5px;flex-wrap:wrap}.tag{font-size:10px;border:1px solid var(--line);border-radius:999px;padding:4px 7px;color:#5e6258}.two-col{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(230px,.7fr);gap:23px}.panel{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:17px}.panel h3{font:500 19px Georgia,serif;margin:0 0 12px}.tree{display:grid;gap:5px}.tree button{display:flex;align-items:center;gap:8px;text-align:left;padding:8px;border:0;background:transparent;border-radius:7px;color:#54584f}.tree button:hover,.tree button.selected{background:#efeee7;color:#192019}.tree .indent{padding-left:27px}.tree .indent2{padding-left:47px}.tree small{color:var(--muted);margin-left:auto}.list{display:grid;gap:9px}.list-row{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:10px;background:#fffefa;padding:11px;cursor:pointer}.mini-cover{width:43px;height:51px;border:1px solid #42453c;display:grid;place-items:center;font:16px Georgia,serif;flex:0 0 auto}.list-row strong{display:block;font:16px Georgia,serif}.list-row small{color:var(--muted);font-size:11px}.empty{border:1px dashed #c9c5b9;border-radius:13px;background:#fbfaf6;padding:30px;text-align:center}.empty .empty-icon{font-size:27px}.empty h2{font:500 25px Georgia,serif;margin:8px 0}.empty p{color:var(--muted);font-size:13px;margin:0 auto 15px;max-width:380px}.filterrow{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}.chip{border:1px solid var(--line);background:#fffefa;border-radius:999px;padding:8px 11px;font-size:11px;color:#55594f}.chip.selected{background:#e8f0dc;border-color:#c4d7ad;color:#2b5638}.graphbox{background:#fbfaf6;border:1px solid var(--line);border-radius:12px;padding:16px;overflow:hidden}.graphbox svg{width:100%;height:auto;max-height:320px}.node{cursor:pointer}.node circle{stroke:#34382f;stroke-width:1.5}.node text{font:12px Arial,sans-serif;fill:#20241f}.edge{stroke:#99998d;stroke-width:1.6}.edge-label{font:10px Arial,sans-serif;fill:#74776f}.path-list{display:grid;gap:0;max-width:760px}.path-step{display:grid;grid-template-columns:40px 1fr auto;align-items:center;gap:12px;position:relative;padding:13px 0}.path-step:not(:last-child):after{content:"";position:absolute;left:19px;top:51px;bottom:-10px;border-left:1px solid #c8c5ba}.step-no{z-index:1;background:var(--lime);width:38px;height:38px;border:1px solid #30352a;border-radius:50%;display:grid;place-items:center;font-weight:bold}.step-copy strong{font:18px Georgia,serif}.step-copy small{display:block;color:var(--muted);font-size:11px;margin-top:3px}.step-action{border:1px solid var(--line);background:#fffefa;border-radius:8px;padding:8px 10px;font-size:11px}.library-tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin:18px 0}.library-tabs button{border:0;background:transparent;padding:10px 7px;color:#74776f;border-bottom:2px solid transparent}.library-tabs button.active{color:#20241f;border-color:#20241f}.library-stats{display:flex;gap:9px;flex-wrap:wrap;margin:20px 0}.stat{padding:13px 16px;border:1px solid var(--line);border-radius:10px;background:#fffefa;min-width:130px}.stat b{display:block;font:24px Georgia,serif}.stat span{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.reader-view{height:calc(100vh - 68px);display:none;grid-template-rows:54px minmax(0,1fr);background:#e8e5dc}.reader-view.active{display:grid}.reader-bar{background:#f9f7f1;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 18px}.reader-bar .left,.reader-bar .right{display:flex;align-items:center;gap:10px}.reader-bar strong{font:16px Georgia,serif}.reader-bar small{font-size:10px;color:var(--muted)}.reader-bar button{border:1px solid var(--line);background:#fffefa;border-radius:8px;padding:7px 10px;font-size:11px}.reader-frame-wrap{min-height:0;display:flex;justify-content:center;padding:12px}.reader-frame{width:min(100%,1100px);height:100%;border:1px solid #d2cdc0;border-radius:12px;background:#f7f3eb;overflow:hidden;box-shadow:0 10px 30px #24271b10}.reader-frame iframe{display:block;width:100%;height:100%;border:0}.prototype-note{position:fixed;right:15px;bottom:14px;padding:8px 10px;border:1px solid #dedacf;border-radius:8px;background:#fffefaed;color:#75766e;font-size:10px;z-index:10}.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:#222820;color:#fff;padding:10px 14px;border-radius:8px;font-size:12px;transition:.2s;z-index:20}.toast.show{opacity:1;transform:translate(-50%,0)}.mobile-menu{display:none}
+.prototype-disclaimer{margin:-15px 0 18px;color:var(--muted);font-size:11px}.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:#222820;color:#fff;padding:10px 14px;border-radius:8px;font-size:12px;transition:.2s;z-index:20}.toast.show{opacity:1;transform:translate(-50%,0)}.mobile-menu{display:none}
+@media(max-width:960px){.app{grid-template-columns:205px minmax(0,1fr)}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.two-col{grid-template-columns:1fr}.sidebar{padding-inline:11px}}
+@media(max-width:650px){.app{display:block}.sidebar{position:fixed;z-index:30;left:0;top:0;width:245px;transform:translateX(-105%);transition:transform .2s;box-shadow:12px 0 30px #0001}.sidebar.open{transform:translateX(0)}.mobile-menu{display:inline-grid;place-items:center;border:1px solid var(--line);border-radius:8px;background:#fffefa;width:36px;height:36px}.topbar{padding:0 12px;height:60px}.searchbox{width:min(230px,55vw)}.page-wrap{padding:22px 15px}.hero{grid-template-columns:1fr}.hero-art{display:none}.cards{grid-template-columns:1fr 1fr;gap:9px}.cover-art{height:125px;padding:12px}.cover-art strong{font-size:24px}.card-body{padding:10px}.card-body h3{font-size:16px}.card-body p{font-size:11px}.reader-view{height:calc(100vh - 60px)}.reader-bar{padding:0 9px}.reader-bar strong{font-size:13px}.reader-bar small{display:none}.reader-frame-wrap{padding:5px}.reader-frame{border-radius:7px}.prototype-note{display:none}}
+@media(max-width:390px){.cards{grid-template-columns:1fr}.top-actions{gap:5px}.searchbox{width:55vw}}
+.site-header{height:68px;position:sticky;top:0;z-index:40;padding:0 clamp(16px,3vw,32px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;background:#f9f7f1}
+.site-brand{display:inline-flex;align-items:center;gap:10px;padding:0 4px;color:var(--ink);text-decoration:none;font-size:12px;font-weight:900;letter-spacing:.09em}
+.site-brand .brand-mark{width:34px;height:34px;display:grid;place-items:center;background:var(--lime);font-size:14px;letter-spacing:0}
+.site-brand:hover{opacity:.8}
+.mobile-menu{display:none}
+.app{min-height:calc(100vh - 68px);grid-template-columns:244px minmax(0,1fr);align-items:start}
+.sidebar{height:calc(100vh - 68px);position:sticky;top:68px;gap:16px;overflow:auto;padding:18px 15px}
+.sidebar .brand{display:none}
+.nav-section{display:grid;gap:5px}
+.nav-section-toggle{width:100%;padding:8px 11px;display:flex;justify-content:space-between;align-items:center;border:0;border-radius:8px;background:transparent;color:#7e7e73;text-align:left;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.nav-section-toggle:hover{background:#efeee7;color:var(--ink)}
+.nav-section-toggle .chevron{font-size:13px;transition:transform .15s}
+.nav-section-toggle[aria-expanded="false"] .chevron{transform:rotate(-90deg)}
+.nav-section-toggle[aria-expanded="true"] .chevron{transform:rotate(0)}
+.nav[hidden]{display:none}
+.nav-section .nav{gap:3px}
+.nav button{min-height:40px}
+.nav button.active{font-weight:700}
+.nav-separator{height:1px;background:var(--line);margin:4px 8px}
+.main{min-width:0}
+.topbar{position:sticky;top:68px;z-index:20}
+.sidebar-backdrop{display:none}
+.home-welcome{min-height:min(650px,calc(100vh - 130px));display:grid;grid-template-columns:minmax(0,1.1fr) minmax(260px,.9fr);align-items:center;gap:clamp(24px,5vw,72px);padding-block:clamp(38px,7vw,86px)}
+.home-copy{max-width:620px}
+.home-copy .page-title{font-size:clamp(44px,6vw,70px);margin:14px 0 18px}
+.home-copy .lede{font-size:17px;line-height:1.7;max-width:590px}
+.home-copy .home-detail{max-width:550px;color:#696d63;font:16px/1.75 Georgia,serif}
+.mascot-scene{min-height:350px;display:grid;place-items:center;position:relative}
+.mascot-halo{position:absolute;width:min(330px,78vw);aspect-ratio:1;border-radius:50%;background:#e8f2d2}
+.mascot{position:relative;z-index:1;width:min(290px,70vw);aspect-ratio:1;display:grid;place-items:center;border:1px solid #d7dfc3;border-radius:48% 52% 46% 54%;background:#faffed;font-size:clamp(130px,18vw,190px);transform:rotate(-4deg);box-shadow:var(--shadow)}
+.mascot-bubble{position:absolute;z-index:2;top:8%;right:-2%;max-width:210px;padding:14px 17px;border:1px solid #d9d5c8;border-radius:16px;background:var(--paper);box-shadow:var(--shadow);font:15px/1.45 Georgia,serif;transform:rotate(3deg)}
+.mascot-bubble:after{content:"";position:absolute;left:24px;bottom:-9px;width:16px;height:16px;border-right:1px solid #d9d5c8;border-bottom:1px solid #d9d5c8;background:var(--paper);transform:rotate(45deg)}
+.mascot-caption{position:absolute;z-index:2;bottom:9%;right:4%;color:#62665c;font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+.home-action{margin-top:12px}
+.learning-summary{max-width:760px;margin-top:28px}
+.learning-summary .list-row{cursor:default}
+.learning-summary .list-row button{margin-left:auto}
+.reader-view{height:calc(100vh - 68px);height:calc(100dvh - 68px);grid-template-rows:54px minmax(0,1fr)}
+.reader-view.active{display:grid}
+.reader-bar{position:sticky;top:68px;z-index:10}
+.reader-frame-wrap{min-height:0}
+.view-reader.active{display:block}
+.topbar.reader-hidden{display:none!important}
+@media(max-width:960px){.app{grid-template-columns:210px minmax(0,1fr)}.home-welcome{grid-template-columns:minmax(0,1fr) minmax(220px,.8fr)}.mascot-scene{min-height:300px}.mascot-bubble{right:-4%}}
+@media(max-width:650px){:root{--header-height:60px}.site-header{height:60px;padding:0 12px;gap:9px}.site-brand{font-size:11px;gap:8px;padding:0}.site-brand .brand-mark{width:34px;height:34px}.mobile-menu{display:inline-grid;flex:0 0 auto;place-items:center;width:36px;height:36px;border:1px solid var(--line);border-radius:8px;background:#fffefa;color:var(--ink)}.app{display:block;min-height:calc(100vh - 60px)}.sidebar{position:fixed;z-index:35;left:0;top:60px;width:min(280px,84vw);height:calc(100vh - 60px);height:calc(100dvh - 60px);padding:17px 13px;transform:translateX(-105%);transition:transform .2s;box-shadow:12px 0 30px #0001}.sidebar.open{transform:translateX(0)}body.sidebar-open{overflow:hidden}.sidebar-backdrop{position:fixed;z-index:34;top:60px;right:0;bottom:0;left:min(280px,84vw);border:0;background:#161a1666}.sidebar-backdrop.visible{display:block}.main{width:100%}.topbar{top:60px;height:58px;padding:0 12px}.crumb{font-size:11px}.searchbox{width:min(230px,50vw)}.page-wrap{padding:22px 15px}.home-welcome{min-height:auto;grid-template-columns:1fr;gap:12px;padding-top:35px;padding-bottom:38px}.home-copy .page-title{font-size:clamp(42px,12vw,58px)}.home-copy .lede{font-size:15px}.home-copy .home-detail{font-size:15px}.mascot-scene{min-height:260px;grid-row:1}.mascot-halo{width:220px}.mascot{width:205px;font-size:135px}.mascot-bubble{top:2%;right:0;max-width:175px;padding:11px 13px;font-size:13px}.mascot-caption{bottom:0;right:8%}.reader-view{height:calc(100vh - 60px);height:calc(100dvh - 60px);grid-template-rows:52px minmax(0,1fr)}.reader-bar{top:60px;padding:0 9px}.reader-bar strong{font-size:13px}.reader-bar small{display:none}.reader-frame-wrap{padding:5px}.reader-frame{border-radius:7px}.prototype-note{display:none}.path-step{grid-template-columns:40px minmax(0,1fr);}.step-action{grid-column:2;justify-self:start}}
+@media(max-width:390px){.topbar .searchbox{width:46vw}.topbar .top-actions{gap:5px}.mascot-scene{min-height:230px}}
+@media(prefers-reduced-motion:reduce){.nav-section-toggle .chevron,.sidebar{transition:none}}
+</style>
+</head>
+<body>
+<header class="site-header" id="siteHeader">
+  <button class="mobile-menu" id="mobileMenu" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">☰</button>
+  <a class="site-brand" href="#" data-view="home" aria-label="Index Dictionary home"><span class="brand-mark">ID</span><span>INDEX DICTIONARY</span></a>
+</header>
+<button class="sidebar-backdrop" id="sidebarBackdrop" aria-label="Close navigation" hidden></button>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div>
+      <section class="nav-section" aria-label="Discover navigation">
+        <button class="nav-section-toggle" id="discoverToggle" data-group-toggle aria-expanded="true" aria-controls="discoverNav"><span>Discover</span><span class="chevron" aria-hidden="true">⌄</span></button>
+        <nav class="nav" id="discoverNav" aria-label="Discover" >
+          <button data-view="concepts"><span class="ico">◉</span>Concept</button>
+          <button data-view="paths"><span class="ico">1→2→3</span>Learning Path</button>
+        </nav>
+      </section>
+      <nav class="nav" aria-label="My Learning">
+        <button data-view="my-learning"><span class="ico">◷</span>My Learning</button>
+      </nav>
+      <div class="nav-separator" aria-hidden="true"></div>
+      <section class="nav-section" aria-label="My Space navigation">
+        <button class="nav-section-toggle" id="mySpaceToggle" data-group-toggle aria-expanded="true" aria-controls="mySpaceNav"><span>My Space</span><span class="chevron" aria-hidden="true">⌄</span></button>
+        <nav class="nav" id="mySpaceNav" aria-label="My Space">
+          <button data-view="library"><span class="ico">▣</span>My Library <span style="margin-left:auto;font-size:10px">3</span></button>
+        </nav>
+      </section>
+    </div>
+    <div class="sidebar-bottom"><strong>Reading stays yours</strong><p>Your saved books and reading activity belong in your personal library.</p><input id="fileInput" type="file" accept=".html,.htm,text/html" hidden></div>
+  </aside>
+  <div class="main">
+    <header class="topbar" id="topbar">
+      <div class="crumb" id="crumb">Library / Home</div>
+      <div class="top-actions"><button class="text-button" data-view="topics" aria-label="Browse topics">Topics</button><label class="searchbox"><span>⌕</span><input id="globalSearch" placeholder="Search books, topics, concepts…" aria-label="Search books"></label><div class="avatar" title="Local reader">R</div></div>
+    </header>
+    <main>
+      <section class="view active" id="view-home">
+        <div class="page-wrap home-welcome">
+          <div class="home-copy">
+            <div class="eyebrow">Curiosity looks good on you</div>
+            <h1 class="page-title">Big ideas.<br>Clearer picture.</h1>
+            <p class="lede">Index Dictionary is a visual, structured way to understand the ideas shaping everyday life.</p>
+            <p class="home-detail">Explore a concept, see how it connects to other ideas, and learn at your own pace. Think of it as a map for curious minds—with fewer wrong turns and more “oh, that makes sense.”</p>
+            <button class="button home-action" data-view="concepts">Explore a concept <span aria-hidden="true">→</span></button>
+          </div>
+          <div class="mascot-scene">
+            <div class="mascot-halo" aria-hidden="true"></div>
+            <div class="mascot" role="img" aria-label="A cheerful monkey mascot">🐒</div>
+            <div class="mascot-bubble">“I came for one idea. Now I have twelve. Send snacks.”</div>
+            <div class="mascot-caption">Your curiosity's new co-pilot</div>
+          </div>
+        </div>
+      </section>
+      <section class="view" id="view-my-learning">
+        <div class="page-wrap">
+          <div class="eyebrow">Your learning</div>
+          <h1 class="page-title">Keep the ideas moving.</h1>
+          <p class="lede">Pick up a book you started or return to a learning sequence.</p>
+          <div class="panel learning-summary">
+            <div class="eyebrow">In progress</div>
+            <h2 style="font:500 27px Georgia,serif;margin:8px 0">The Attention Economy</h2>
+            <p style="font-size:13px;color:var(--muted)">Your last open book in this prototype. Reading progress is shown as a sample.</p>
+            <button class="button" data-open="book-01">Continue reading →</button>
+          </div>
+          <div class="panel learning-summary">
+            <div class="eyebrow">Learning sequence</div>
+            <h2 style="font:500 24px Georgia,serif;margin:8px 0">Understand attention by design</h2>
+            <p style="font-size:13px;color:var(--muted)">Three short books, arranged to build one idea at a time.</p>
+            <button class="button light" data-view="paths">Open Learning Path →</button>
+          </div>
+        </div>
+      </section>
+      <section class="view" id="view-search">
+        <div class="page-wrap">
+          <div class="eyebrow">Discover</div><h1 class="page-title">Search the library.</h1><p class="lede">Search across book titles, descriptions, topics, and concepts.</p><p class="prototype-disclaimer">Prototype note: the five sample entries are separate copies of the same source book.</p>
+          <label class="searchbox" style="width:min(620px,100%);height:48px"><span>⌕</span><input id="pageSearch" placeholder="Try “attention”, “technology”, or “incentives”…" aria-label="Search catalog"></label>
+          <div class="filterrow"><button class="chip selected" data-filter="All">All books</button><button class="chip" data-filter="Human Nature">Human Nature</button><button class="chip" data-filter="Technology">Technology</button><button class="chip" data-filter="Design">Design</button><button class="chip" data-filter="In a learning path">In a learning path</button></div>
+          <p id="resultCount" style="font-size:11px;color:var(--muted)"></p><div class="cards" id="searchCards"></div>
+          <div class="empty" id="noResults" hidden><div class="empty-icon">⌕</div><h2>No books found</h2><p>We couldn’t find a match for “<strong id="emptyQuery"></strong>”. Try another search or browse the full catalog.</p><button class="button" id="clearSearch">Clear search</button></div>
+        </div>
+      </section>
+      <section class="view" id="view-topics">
+        <div class="page-wrap"><div class="eyebrow">Browse by subject</div><h1 class="page-title">Topics, connected.</h1><p class="lede">Move from broad areas of curiosity to focused subjects.</p>
+          <div class="two-col"><div class="panel"><h3>Topic taxonomy</h3><div class="tree">
+            <button class="selected" data-topic="All"><span>⌄</span> Ideas <small>5</small></button>
+            <button class="indent" data-topic="Human Nature"><span>⌄</span> Human nature & thinking <small>2</small></button>
+            <button class="indent2" data-topic="Attention & focus">Attention & focus <small>2</small></button>
+            <button class="indent2" data-topic="Beliefs & bias">Beliefs & bias <small>0</small></button>
+            <button class="indent" data-topic="Technology"><span>⌄</span> Technology & systems <small>2</small></button>
+            <button class="indent2" data-topic="Digital products">Digital products <small>2</small></button>
+            <button class="indent" data-topic="Design & society">Design & society <small>1</small></button>
+          </div></div><div><h3 style="font:500 20px Georgia,serif">Books in <span id="topicName">Ideas</span></h3><div class="list" id="topicBooks"></div></div></div>
+        </div>
+      </section>
+      <section class="view" id="view-concepts">
+        <div class="page-wrap"><div class="eyebrow">Explore connections</div><h1 class="page-title">Follow an idea.</h1><p class="lede">The knowledge graph shows how concepts relate. It suggests connections—not what order you must learn them in.</p>
+          <div class="two-col"><div class="graphbox"><svg viewBox="0 0 660 340" role="img" aria-label="Knowledge graph connecting Attention to Incentives, Engagement, and Interface design">
+            <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#99998d"/></marker></defs>
+            <path class="edge" marker-end="url(#arr)" d="M165 165L278 91"/><text class="edge-label" x="190" y="113">competes for</text>
+            <path class="edge" marker-end="url(#arr)" d="M165 177L292 250"/><text class="edge-label" x="191" y="231">measured as</text>
+            <path class="edge" marker-end="url(#arr)" d="M375 94L497 159"/><text class="edge-label" x="414" y="113">shapes</text>
+            <path class="edge" marker-end="url(#arr)" d="M380 248L503 181"/><text class="edge-label" x="421" y="228">informs</text>
+            <g class="node" data-concept="Attention"><circle cx="115" cy="170" r="48" fill="#d5ff58"/><text x="115" y="174" text-anchor="middle">Attention</text></g>
+            <g class="node" data-concept="Incentives"><circle cx="330" cy="83" r="45" fill="#b9d7f6"/><text x="330" y="87" text-anchor="middle">Incentives</text></g>
+            <g class="node" data-concept="Engagement"><circle cx="330" cy="258" r="49" fill="#ffb99d"/><text x="330" y="262" text-anchor="middle">Engagement</text></g>
+            <g class="node" data-concept="Interface design"><circle cx="548" cy="170" r="53" fill="#ded7f5"/><text x="548" y="174" text-anchor="middle">Interface design</text></g>
+          </svg><p style="font-size:10px;color:var(--muted);margin:0">Select a concept to see linked books. Edges are editorially curated.</p></div>
+          <div class="panel"><div class="eyebrow">Selected concept</div><h3 id="conceptName" style="font-size:26px;margin:8px 0">Attention</h3><p id="conceptDescription" style="font-size:12px;color:var(--muted)">A limited human resource that products and systems compete to capture.</p><h3 style="margin-top:21px">Books that explain it</h3><div class="list" id="conceptBooks"></div></div></div>
+        </div>
+      </section>
+      <section class="view" id="view-paths">
+        <div class="page-wrap"><div class="eyebrow">Curated learning sequence</div><h1 class="page-title">Understand attention<br>by design.</h1><p class="lede">Three books, in an intentional order. Take the path at your own pace.</p><div class="panel" style="max-width:790px;margin-bottom:15px"><div style="display:flex;justify-content:space-between;gap:12px;align-items:center"><div><strong>0 of 3 books complete</strong><div style="font-size:11px;color:var(--muted);margin-top:4px">About 25 minutes · Optional completion stays on this device</div></div><span class="tag">BEGINNER</span></div><div style="height:4px;background:#eeece4;margin-top:14px;border-radius:4px"><span style="display:block;width:8%;height:100%;background:#a9cf42;border-radius:4px"></span></div></div><div class="path-list" id="pathSteps"></div></div>
+      </section>
+      <section class="view" id="view-library">
+        <div class="page-wrap"><div class="eyebrow">Your space · Stored on this device</div><h1 class="page-title">My Library.</h1><p class="lede">Saved books, your imports, and where you left off.</p><div class="library-stats"><div class="stat"><b>3</b><span>Saved books</span></div><div class="stat"><b>1</b><span>In progress</span></div><div class="stat"><b>1</b><span>Collection</span></div></div><div class="library-tabs"><button class="active" data-tab="All">All books</button><button data-tab="In progress">In progress</button><button data-tab="Saved">Saved</button><button data-tab="Imported">Imported</button></div><div class="section-head" style="margin-top:16px"><h2 style="font-size:22px">Continue reading</h2><button class="button small light" id="importBtn2">＋ Import HTML</button></div><div class="list" id="libraryList"></div><div class="panel" style="margin-top:22px"><div class="eyebrow">Personal collection</div><h3 style="margin:7px 0">Design & attention <span style="font:12px Arial;color:var(--muted)">· 3 books</span></h3><div class="tags"><span class="tag">Attention Economy 01</span><span class="tag">Attention Economy 02</span><span class="tag">Attention Economy 03</span></div></div></div>
+      </section>
+      <section class="view" id="view-reader">
+        <div class="reader-view active">
+          <div class="reader-bar"><div class="left"><button id="backToCatalog">← Library</button><div><strong id="readerTitle">The Attention Economy</strong><br><small id="readerMeta">A short visual book · Sample 01</small></div></div><div class="right"><button id="bookmarkCurrent">☆ Save</button><button id="readerMenu">Book info</button></div></div>
+          <div class="reader-frame-wrap"><div class="reader-frame"><iframe id="bookFrame" title="Book reading canvas" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe></div></div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(()=> {
+  const books=[
+    {id:'book-01',title:'The Attention Economy · 01',realTitle:'The Attention Economy',file:'book/book-01.html',desc:'Who controls your attention, and who profits from it?',topic:'Human Nature',subtopic:'Attention & focus',concepts:['Attention','Incentives'],tags:['Focus','Technology'],tone:'c1',status:'In progress'},
+    {id:'book-02',title:'The Attention Economy · 02',realTitle:'The Attention Economy',file:'book/book-02.html',desc:'A second copy of the sample book for independent reader testing.',topic:'Technology',subtopic:'Digital products',concepts:['Attention','Engagement'],tags:['Systems','Technology'],tone:'c2',status:'Saved'},
+    {id:'book-03',title:'The Attention Economy · 03',realTitle:'The Attention Economy',file:'book/book-03.html',desc:'Explore a separate book entry, route, and reading state.',topic:'Design & society',subtopic:'Design & society',concepts:['Incentives','Interface design'],tags:['Design','Culture'],tone:'c3',status:'Saved'},
+    {id:'book-04',title:'The Attention Economy · 04',realTitle:'The Attention Economy',file:'book/book-04.html',desc:'A fourth independent sample entry in the growing catalog.',topic:'Human Nature',subtopic:'Attention & focus',concepts:['Attention','Engagement'],tags:['Learning','Focus'],tone:'c4',status:'In catalog'},
+    {id:'book-05',title:'The Attention Economy · 05',realTitle:'The Attention Economy',file:'book/book-05.html',desc:'A fifth copy to investigate discovery and personal organization.',topic:'Technology',subtopic:'Digital products',concepts:['Interface design','Engagement'],tags:['Technology','Design'],tone:'c5',status:'In catalog'}
+  ];
+  const views=['home','my-learning','search','topics','concepts','paths','library','reader'];
+  const $=id=>document.getElementById(id);
+  let selectedFilter='All',selectedTab='All',activeBook=books[0];
+  function toast(text){const t=$('toast');t.textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2100)}
+  function card(b){return `<article class="book-card" tabindex="0" data-open="${b.id}" aria-label="Open ${b.title}"><div class="cover-art ${b.tone}"><span class="smallcap">Index Dictionary · Sample</span><strong>The Attention<br>Economy</strong><span>Copy ${b.id.slice(-2)}</span></div><div class="card-body"><div class="card-meta"><span>${b.topic}</span><span>${b.status}</span></div><h3>${b.title}</h3><p>${b.desc}</p><div class="tags">${b.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div></article>`}
+  function row(b){return `<div class="list-row" tabindex="0" data-open="${b.id}"><div class="mini-cover ${b.tone}">${b.id.slice(-2)}</div><div style="min-width:0;flex:1"><strong>${b.title}</strong><small>${b.status} · ${b.topic} · 10 min</small></div><span aria-hidden="true">→</span></div>`}
+  const searchInput=$('pageSearch');
+  function renderSearch(query=searchInput.value){
+    const q=query.trim().toLowerCase();
+    let matches=books.filter(b=>!q||[b.title,b.desc,b.topic,...b.tags,...b.concepts].join(' ').toLowerCase().includes(q));
+    if(selectedFilter!=='All')    matches=matches.filter(b=>selectedFilter==='In a learning path'?['book-01','book-02','book-03'].includes(b.id):b.topic.includes(selectedFilter));
+    $('resultCount').textContent=`${matches.length} ${matches.length===1?'book':'books'} found`;
+    $('searchCards').innerHTML=matches.map(card).join('');
+    $('noResults').hidden=matches.length>0;
+    $('emptyQuery').textContent=query;
+  }
+  renderSearch('');
+  function renderTopic(topic='All'){
+    $('topicName').textContent=topic==='All'?'Ideas':topic;
+    $('topicBooks').innerHTML=books.filter(b=>topic==='All'||b.topic===topic||b.subtopic===topic).map(row).join('');
+  }
+  renderTopic();
+  const conceptDescriptions={
+    'Attention':'A limited human resource that products and systems compete to capture.',
+    'Incentives':'The rewards and goals that influence how a product or organization behaves.',
+    'Engagement':'A measurable signal such as time, clicks, or return visits—not automatically a measure of user value.',
+    'Interface design':'The choices in a screen or interaction that shape what becomes easy, visible, or compelling.'
+  };
+  function renderConcept(name='Attention'){
+    $('conceptName').textContent=name;
+    $('conceptDescription').textContent=conceptDescriptions[name]||'An idea connected to the systems in this learning library.';
+    $('conceptBooks').innerHTML=books.filter(b=>b.concepts.includes(name)).map(row).join('');
+  }
+  renderConcept();
+  $('pathSteps').innerHTML=books.slice(0,3).map((b,i)=>`<div class="path-step"><span class="step-no">${i+1}</span><div class="step-copy"><strong>${b.title}</strong><small>${i===0?'Begin with the core idea':i===1?'Follow the system and incentives':'Connect the idea to design choices'} · 8–10 min</small></div><button class="step-action" data-open="${b.id}">${i===0?'Start book':'Open book'} →</button></div>`).join('');
+  function renderLibrary(){
+    let list=books.filter(b=>selectedTab==='All'?(b.status==='Saved'||b.status==='In progress'):(selectedTab==='In progress'?b.status==='In progress':selectedTab==='Saved'?b.status==='Saved':false));
+    $('libraryList').innerHTML=list.length?list.map(row).join(''):`<div class="empty"><div class="empty-icon">▣</div><h2>No imported books yet</h2><p>Import a standalone HTML file to keep a personal copy on this device.</p><button class="button small" id="emptyImport">Import HTML</button></div>`;
+  }
+  renderLibrary();
+  function showView(name){
+    if(!views.includes(name))return;
+    if(name!=='reader'&&location.hash.startsWith('#read/'))history.replaceState({view:name},'',location.pathname+location.search);
+    views.forEach(v=>{const section=$(`view-${v}`);if(section)section.classList.toggle('active',v===name)});
+    document.querySelectorAll('.nav button[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===name));
+    $('crumb').textContent=`Library / ${name==='reader'?'Reading':name[0].toUpperCase()+name.slice(1)}`;
+    $('topbar').classList.toggle('reader-hidden',name==='reader');
+    if(name==='search'){renderSearch($('globalSearch').value);searchInput.value=$('globalSearch').value}
+    closeSidebar();
+    window.scrollTo(0,0);
+  }
+  function setGroupExpanded(toggle,nav,expanded){
+    toggle.setAttribute('aria-expanded',String(expanded));
+    nav.hidden=!expanded;
+  }
+  function syncSidebarAccessibility(){
+    const closedMobile=window.matchMedia('(max-width: 650px)').matches&&!$('sidebar').classList.contains('open');
+    $('sidebar').inert=closedMobile;
+    $('sidebar').setAttribute('aria-hidden',String(closedMobile));
+  }
+  function closeSidebar(){
+    $('sidebar').classList.remove('open');
+    document.body.classList.remove('sidebar-open');
+    $('mobileMenu').setAttribute('aria-expanded','false');
+    $('mobileMenu').setAttribute('aria-label','Open navigation');
+    $('sidebarBackdrop').classList.remove('visible');
+    $('sidebarBackdrop').hidden=true;
+    syncSidebarAccessibility();
+  }
+  function toggleSidebar(){
+    const open=!$('sidebar').classList.contains('open');
+    $('sidebar').classList.toggle('open',open);
+    document.body.classList.toggle('sidebar-open',open);
+    $('mobileMenu').setAttribute('aria-expanded',String(open));
+    $('mobileMenu').setAttribute('aria-label',open?'Close navigation':'Open navigation');
+    $('sidebarBackdrop').hidden=!open;
+    $('sidebarBackdrop').classList.toggle('visible',open);
+    syncSidebarAccessibility();
+  }
+  window.addEventListener('resize',syncSidebarAccessibility);
+  syncSidebarAccessibility();
+  function openBook(id){
+    const b=books.find(x=>x.id===id);if(!b)return;
+    activeBook=b;
+    $('readerTitle').textContent=b.title;
+    $('readerMeta').textContent=`Independent HTML book · Sample ${id.slice(-2)} · Gestures owned by book`;
+    $('bookFrame').src=b.file;
+    try{$('bookmarkCurrent').textContent=localStorage.getItem(`saved-${id}`)?'★ Saved':'☆ Save'}catch{$('bookmarkCurrent').textContent='☆ Save'}
+    history.pushState({view:'reader',book:id},'',`#read/${id}`);
+    showView('reader');
+  }
+  document.addEventListener('click',e=>{
+    const groupToggle=e.target.closest('[data-group-toggle]');
+    if(groupToggle){
+      const nav=$(groupToggle.getAttribute('aria-controls'));
+      setGroupExpanded(groupToggle,nav,groupToggle.getAttribute('aria-expanded')!=='true');
+      return;
+    }
+    const opener=e.target.closest('[data-open]');if(opener){openBook(opener.dataset.open);return}
+    const nav=e.target.closest('[data-view]');if(nav){e.preventDefault();showView(nav.dataset.view);return}
+    const topic=e.target.closest('[data-topic]');if(topic){document.querySelectorAll('[data-topic]').forEach(x=>x.classList.remove('selected'));topic.classList.add('selected');renderTopic(topic.dataset.topic);return}
+    const concept=e.target.closest('[data-concept]');if(concept){renderConcept(concept.dataset.concept);return}
+    if(e.target.closest('#emptyImport'))selectFile();
+  });
+  document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-open]')){e.preventDefault();openBook(e.target.dataset.open)}});
+  document.querySelectorAll('[data-filter]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-filter]').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');selectedFilter=btn.dataset.filter;renderSearch()}));
+  document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-tab]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');selectedTab=btn.dataset.tab;renderLibrary()}));
+  searchInput.addEventListener('input',()=>{ $('globalSearch').value=searchInput.value;renderSearch()});
+  $('globalSearch').addEventListener('input',()=>{searchInput.value=$('globalSearch').value;renderSearch($('globalSearch').value);if($('globalSearch').value)showView('search')});
+  $('clearSearch').addEventListener('click',()=>{$('globalSearch').value='';searchInput.value='';renderSearch('');searchInput.focus()});
+  $('backToCatalog').addEventListener('click',()=>{history.replaceState({view:'home'},'',location.pathname);showView('home')});
+  $('bookmarkCurrent').addEventListener('click',()=>{try{const key=`saved-${activeBook.id}`,saved=localStorage.getItem(key);if(saved)localStorage.removeItem(key);else localStorage.setItem(key,'1');$('bookmarkCurrent').textContent=saved?'☆ Save':'★ Saved';toast(saved?'Removed from My Library':'Saved to My Library')}catch{toast('Browser storage is unavailable; this save was not kept.')}});
+  $('readerMenu').addEventListener('click',()=>toast('This HTML book owns its page design and reading gestures.'));
+  $('mobileMenu').addEventListener('click',toggleSidebar);
+  $('sidebarBackdrop').addEventListener('click',closeSidebar);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSidebar()});
+  function selectFile(){ $('fileInput').click() }
+  $('importBtn2').addEventListener('click',selectFile);
+  $('fileInput').addEventListener('change',e=>{const f=e.target.files?.[0];if(!f)return;if(f.size>2*1024*1024){toast('Prototype limit is 2 MiB per HTML file');return}if(!/\.html?$/i.test(f.name)){toast('Choose an .html or .htm file');return}toast(`${f.name} selected — local import flow is a prototype placeholder.`);e.target.value=''});
+  window.addEventListener('popstate',()=>{const id=location.hash.match(/^#read\/(book-\d+)/)?.[1];if(id)openBookFromHistory(id);else showView('home')});
+  function openBookFromHistory(id){const b=books.find(x=>x.id===id);if(!b)return;activeBook=b;$('readerTitle').textContent=b.title;$('readerMeta').textContent=`Independent HTML book · Sample ${id.slice(-2)} · Gestures owned by book`;$('bookFrame').src=b.file;showView('reader')}
+  const initial=location.hash.match(/^#read\/(book-\d+)/)?.[1];if(initial)openBookFromHistory(initial);
+})();
+</script>
+</body>
+</html>

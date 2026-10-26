@@ -1,0 +1,109 @@
+batch_id: "B10"
+completed_tasks: ["T014", "T015"]
+blocked_tasks: []
+files_changed:
+  T014:
+    - file: "src/js/app.js"
+      change_type: "modified"
+      description: "Fix mobile drawer focus ordering and restore keyboard focus after view controls re-render."
+    - file: "src/views/library.js"
+      change_type: "modified"
+      description: "Replace incorrect tablist semantics with a labelled toggle-button group."
+    - file: "src/views/search.js"
+      change_type: "modified"
+      description: "Give catalog filter buttons a labelled group."
+    - file: "src/views/topics.js"
+      change_type: "modified"
+      description: "Give taxonomy selection buttons a labelled group."
+    - file: "src/css/tokens.css"
+      change_type: "modified"
+      description: "Increase muted-text contrast while preserving the visual palette."
+    - file: "src/css/app.css"
+      change_type: "modified"
+      description: "Use the accessible muted color in app labels and graph relation text."
+    - file: "tests/README.md"
+      change_type: "modified"
+      description: "Record accessibility and responsive test evidence."
+  T015:
+    - file: "README.md"
+      change_type: "modified"
+      description: "Add static deployment instructions, host requirements, release checks, and static-revocation limitations."
+    - file: "tests/README.md"
+      change_type: "modified"
+      description: "Record final privacy, storage-failure, browser, performance-profile, and hosting checks."
+    - file: "implementation-plan/plan.md"
+      change_type: "modified"
+      description: "Mark T014/T015 completed and update execution status to 15/15."
+    - file: "implementation-plan/checkpoints/plan-to-tasks.yaml"
+      change_type: "modified"
+      description: "Mark Phase 11 tasks completed."
+    - file: "implementation-plan/checkpoints/tasks-to-impl.yaml"
+      change_type: "modified"
+      description: "Record T014/T015 changes, test evidence, traceability, and zero remaining tasks."
+    - file: "implementation-plan/checkpoints/batch-report.yaml"
+      change_type: "modified"
+      description: "Record B10 final validation results."
+upstream_artifacts_consumed:
+  T014:
+    - artifact: "implementation-plan/plan.md#Step 14"
+      used_for: "Keyboard, assistive-technology, reduced-motion, responsive, and WCAG 2.2 AA verification."
+    - artifact: "index-dictionary-prd-v1.2.html#NFR-01"
+      used_for: "Semantic controls, focus management, contrast, and screen-reader status."
+  T015:
+    - artifact: "implementation-plan/plan.md#Step 15"
+      used_for: "Catalog integrity, privacy, browser, storage failure, performance profile, and static deployment checks."
+    - artifact: "static-mvp-decisions.md"
+      used_for: "Document static-only publication, authentication, and revocation limitations."
+evidence_mapping:
+  T014:
+    - upstream: "implementation-plan/plan.md#Step 14"
+      output: "src/js/app.js"
+      evidence: "Keyboard tests preserved focus after library/search filters, topic and concept selection, descendant toggles, path completion, and mobile drawer open/close; mobile drawer focus entered its controls and returned to the trigger on Escape."
+    - upstream: "index-dictionary-prd-v1.2.html#NFR-01"
+      output: "src/css/tokens.css"
+      evidence: "Rendered text contrast check across all seven non-reader routes had no WCAG AA threshold failures after muted text changed to #686b63; accessible snapshots showed one H1 per route, no duplicate IDs, unnamed interactive controls, or tablist misuse."
+    - upstream: "implementation-plan/plan.md#NFR-02, FR-051"
+      output: "src/css/app.css"
+      evidence: "All 48 combinations of eight routes and 320/375/600/760/1024/1280 CSS px had no horizontal overflow. A 200% page-scale check at 375px had no overflow; reduced-motion mode changed scroll behavior to auto and transition duration to 0.01ms."
+  T015:
+    - upstream: "implementation-plan/plan.md#Step 15"
+      output: "scripts/validate-catalog.js"
+      evidence: "Catalog validation passed for five books, seven topics, four concepts, and one learning path; all six catalog-validator tests passed, including traversal, missing-file, bad-reference, cycle, and symlink cases."
+    - upstream: "implementation-plan/plan.md#NFR-05, NFR-06, NFR-07"
+      output: "tests/README.md"
+      evidence: "Nine local HTTP resources returned 200 with expected MIME types. All five sample books loaded in sandboxed frames without allow-same-origin; resource timing showed localhost-only requests and there were no page errors or failed requests. IndexedDB-unavailable and simulated quota errors were announced explicitly and did not report a successful save."
+    - upstream: "static-mvp-decisions.md"
+      output: "README.md"
+      evidence: "Documented HTTPS, static root/path and MIME requirements, hash-route behavior, iframe/header compatibility, cache/revalidation considerations, and that static catalog removal cannot guarantee revocation of a direct or cached book URL."
+    - upstream: "implementation-plan/plan.md#NFR-04"
+      output: "tests/README.md"
+      evidence: "On the integrated Chromium build at 390×844 CSS px over local HTTP, without network/CPU throttling and with a warm cache, recorded approximately 440ms LCP. This is explicitly scoped as a local smoke measurement rather than production or field performance."
+traceability:
+  - requirement: "FR-012, FR-051, NFR-01, NFR-02, NFR-07"
+    plan_item: "11.1"
+    task: "T014"
+    files: ["src/js/app.js", "src/views/library.js", "src/views/search.js", "src/views/topics.js", "src/css/tokens.css", "src/css/app.css"]
+    status: "completed"
+  - requirement: "FR-004, FR-023, FR-042, NFR-03, NFR-04, NFR-05, NFR-06, NFR-07, NFR-08"
+    plan_item: "11.2"
+    task: "T015"
+    files: ["README.md", "tests/README.md", "scripts/validate-catalog.js"]
+    status: "completed"
+protocol_violation: false
+errors: []
+warnings:
+  - "Only the integrated Chromium build was exercised; Firefox, WebKit, and physical screen-reader combinations still require independent release-owner testing."
+  - "The 440ms LCP result is a local warm-cache smoke measurement and is not representative of a production mobile network or a field-performance guarantee."
+test_results:
+  T014:
+    command: "Integrated browser keyboard, accessibility-tree, contrast, responsive, text-scale, and reduced-motion checks."
+    passed: 6
+    failed: 0
+    skipped: 0
+    failures: []
+  T015:
+    command: "JavaScript syntax checks, catalog validation/tests, HTTP/MIME smoke checks, sample-book loading, local-origin resource review, storage-unavailable/quota scenarios, and mobile LCP profile."
+    passed: 8
+    failed: 0
+    skipped: 0
+    failures: []

@@ -1,0 +1,252 @@
+metadata:
+  generated: "2026-10-27"
+  source_spec: "../index-dictionary-prd-v1.2.html"
+  target_plan: "plan.md"
+
+summary:
+  total_requirements: 29
+  covered_requirements: 29
+  missing_requirements: 0
+  coverage_percentage: 100.0
+
+requirements:
+  - req_id: "FR-001"
+    req_description: "Show published catalog entries with metadata and open action"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-2/Phase-3"
+      phase_name: "Foundational catalog and US-01 discovery"
+      items: [{item_id: "2.1", description: "Define and validate static catalog"}, {item_id: "3.1", description: "Implement catalog cards and search"}]
+    notes: ""
+  - req_id: "FR-002"
+    req_description: "Search metadata and combine category filters"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-3"
+      phase_name: "US-01/US-02 discovery"
+      items: [{item_id: "3.1", description: "Implement catalog cards, search, filters, and states"}]
+    notes: ""
+  - req_id: "FR-003"
+    req_description: "Show recoverable no-results state"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-3"
+      phase_name: "US-01/US-02 discovery"
+      items: [{item_id: "3.1", description: "Implement no-results query and recovery actions"}]
+    notes: ""
+  - req_id: "FR-004"
+    req_description: "Loading, empty, and recoverable errors"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-2/Phase-7/Phase-11"
+      phase_name: "Shell, reader, and validation"
+      items: [{item_id: "2.2", description: "Build shell states"}, {item_id: "7.1", description: "Build reader errors"}, {item_id: "11.2", description: "Verify recoverability"}]
+    notes: ""
+  - req_id: "FR-010"
+    req_description: "Stable book IDs and catalog metadata"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-2"
+      phase_name: "Foundational catalog"
+      items: [{item_id: "2.1", description: "Define stable IDs and metadata"}]
+    notes: ""
+  - req_id: "FR-011"
+    req_description: "Book cover/contents/navigation and return path"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-7"
+      phase_name: "US-03 reader"
+      items: [{item_id: "7.1", description: "Implement isolated reader"}]
+    notes: ""
+  - req_id: "FR-012"
+    req_description: "Visible and keyboard reading controls"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-7/Phase-11"
+      phase_name: "Reader and accessibility"
+      items: [{item_id: "7.1", description: "Implement reader controls"}, {item_id: "11.1", description: "Verify accessibility"}]
+    notes: ""
+  - req_id: "FR-013"
+    req_description: "Stable book/page URL and validated restoration"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-7/Phase-8"
+      phase_name: "Reader and continuity"
+      items: [{item_id: "7.1", description: "Implement route fragments"}, {item_id: "7.2", description: "Synchronize validated page state"}]
+    notes: ""
+  - req_id: "FR-020"
+    req_description: "Import and preview HTML with editable metadata"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-9"
+      phase_name: "US-05 imports"
+      items: [{item_id: "9.1", description: "Implement local import"}]
+    notes: ""
+  - req_id: "FR-021"
+    req_description: "Keep imports private and visibly local"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-9/Phase-11"
+      phase_name: "Imports and privacy validation"
+      items: [{item_id: "9.1", description: "Store imports locally"}, {item_id: "11.2", description: "Verify no network sharing"}]
+    notes: ""
+  - req_id: "FR-022"
+    req_description: "Rename, categorize, organize, and delete local books"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-9"
+      phase_name: "US-05 imports"
+      items: [{item_id: "9.1", description: "Implement local book lifecycle"}]
+    notes: ""
+  - req_id: "FR-023"
+    req_description: "Reject unsupported or malformed files with actionable errors"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-9/Phase-11"
+      phase_name: "Imports and validation"
+      items: [{item_id: "9.1", description: "Validate files"}, {item_id: "11.2", description: "Verify rejection cases"}]
+    notes: ""
+  - req_id: "FR-030"
+    req_description: "Save public books and manage collections"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-8"
+      phase_name: "US-04/US-06 local library"
+      items: [{item_id: "8.1", description: "Implement saved books and collections"}]
+    notes: ""
+  - req_id: "FR-031"
+    req_description: "My Library includes saved, imported, recent, and unfinished books"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-8"
+      phase_name: "US-04/US-06 local library"
+      items: [{item_id: "8.1", description: "Implement My Library views"}]
+    notes: ""
+  - req_id: "FR-032"
+    req_description: "Store last position, progress, bookmarks, and completion locally"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-7/Phase-8"
+      phase_name: "Reader and continuity"
+      items: [{item_id: "7.2", description: "Send safe page events"}, {item_id: "8.1", description: "Persist reader progress"}]
+    notes: ""
+  - req_id: "FR-033"
+    req_description: "Valid URL page takes precedence over saved progress"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-7/Phase-8"
+      phase_name: "Reader and continuity"
+      items: [{item_id: "7.1", description: "Parse page URLs"}, {item_id: "8.1", description: "Offer resume/restart"}]
+    notes: ""
+  - req_id: "FR-034"
+    req_description: "Clear local data and cascade deletion"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-8/Phase-9"
+      phase_name: "Local library and imports"
+      items: [{item_id: "8.1", description: "Clear local reader data"}, {item_id: "9.1", description: "Delete local books transactionally"}]
+    notes: ""
+  - req_id: "FR-040"
+    req_description: "Authenticated editors publish shared books"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-1"
+      phase_name: "Setup and scope boundary"
+      items: [{item_id: "1.1", description: "Document owner-approved deferral of server-side editor authentication"}]
+    notes: "Deferred; static-only scope cannot enforce authenticated publication."
+  - req_id: "FR-041"
+    req_description: "Verify manual book files before explicit editor publication"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-1/Phase-11"
+      phase_name: "Setup and static release checks"
+      items: [{item_id: "1.1", description: "Document manual repository publication boundary"}, {item_id: "11.2", description: "Validate static catalog and files"}]
+    notes: "No authenticated editor UI or server-side CI verification API in this scope."
+  - req_id: "FR-042"
+    req_description: "Public reading and unpublish/revocation behavior"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-1/Phase-11"
+      phase_name: "Setup and static release checks"
+      items: [{item_id: "1.1", description: "Record static hosting revocation limitation"}, {item_id: "11.2", description: "Verify public static routes"}]
+    notes: "Public catalog inclusion/removal is static; immediate revocation of direct/cached book URLs is not guaranteed."
+  - req_id: "FR-050"
+    req_description: "Share public books/pages without exposing local books"
+    priority: "P1"
+    plan_mapping:
+      phase: "Phase-10"
+      phase_name: "US-08 sharing"
+      items: [{item_id: "10.1", description: "Implement public sharing"}]
+    notes: ""
+  - req_id: "FR-051"
+    req_description: "Reduced motion for optional interactions"
+    priority: "P1"
+    plan_mapping:
+      phase: "Phase-11"
+      phase_name: "US-09 quality"
+      items: [{item_id: "11.1", description: "Implement reduced-motion behavior"}]
+    notes: ""
+  - req_id: "FR-060"
+    req_description: "Hierarchical taxonomy and breadcrumbs"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-4"
+      phase_name: "US-10 taxonomy"
+      items: [{item_id: "4.1", description: "Browse taxonomy"}]
+    notes: ""
+  - req_id: "FR-061"
+    req_description: "Multiple topic assignments and a primary topic"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-2/Phase-4"
+      phase_name: "Catalog and taxonomy"
+      items: [{item_id: "2.1", description: "Represent taxonomy assignments"}, {item_id: "4.1", description: "Display primary topic"}]
+    notes: ""
+  - req_id: "FR-062"
+    req_description: "Browse direct and descendant topic assignments"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-4"
+      phase_name: "US-10 taxonomy"
+      items: [{item_id: "4.1", description: "Filter direct/descendant topics"}]
+    notes: ""
+  - req_id: "FR-063"
+    req_description: "Stable concepts and typed directed relations"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-2/Phase-5"
+      phase_name: "Catalog and graph"
+      items: [{item_id: "2.1", description: "Define concept data"}, {item_id: "5.1", description: "Explore graph"}]
+    notes: ""
+  - req_id: "FR-064"
+    req_description: "Bounded labeled graph, not an implied learning order"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-5"
+      phase_name: "US-11 graph"
+      items: [{item_id: "5.1", description: "Render bounded graph and textual relationships"}]
+    notes: ""
+  - req_id: "FR-065"
+    req_description: "Explicit contiguous learning path order starting at 1"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-2/Phase-6"
+      phase_name: "Catalog and learning paths"
+      items: [{item_id: "2.1", description: "Validate path positions"}, {item_id: "6.1", description: "Display learning sequence"}]
+    notes: "Path data is edited in versioned JSON; authenticated editing is deferred."
+  - req_id: "FR-066"
+    req_description: "Display path order and persist local completion"
+    priority: "P0"
+    plan_mapping:
+      phase: "Phase-6/Phase-8"
+      phase_name: "Learning path and local library"
+      items: [{item_id: "6.1", description: "Display path steps"}, {item_id: "8.1", description: "Store path completion"}]
+    notes: ""
+
+missing_requirements: []
+orphan_plan_items: []
+validation:
+  passed: true
+  errors: []
+  warnings:
+    - "FR-040, FR-041, and immediate FR-042 revocation enforcement are explicitly deferred by the owner-confirmed static-only boundary."

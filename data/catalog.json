@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "books": [
+    {
+      "id": "book-01",
+      "title": "The Attention Economy · 01",
+      "summary": "Who controls your attention, and who profits from it?",
+      "contentPath": "book/book-01.html",
+      "revision": 1,
+      "status": "published",
+      "readingMinutes": 10,
+      "primaryTaxonomyId": "attention-focus",
+      "taxonomyIds": ["human-nature", "attention-focus"],
+      "tags": ["Focus", "Technology"],
+      "conceptLinks": [
+        { "conceptId": "attention", "role": "explains" },
+        { "conceptId": "incentives", "role": "introduces" }
+      ]
+    },
+    {
+      "id": "book-02",
+      "title": "The Attention Economy · 02",
+      "summary": "A second copy of the sample book for independent reader testing.",
+      "contentPath": "book/book-02.html",
+      "revision": 1,
+      "status": "published",
+      "readingMinutes": 10,
+      "primaryTaxonomyId": "digital-products",
+      "taxonomyIds": ["technology", "digital-products"],
+      "tags": ["Systems", "Technology"],
+      "conceptLinks": [
+        { "conceptId": "attention", "role": "explains" },
+        { "conceptId": "engagement", "role": "introduces" }
+      ]
+    },
+    {
+      "id": "book-03",
+      "title": "The Attention Economy · 03",
+      "summary": "Explore a separate book entry, route, and reading state.",
+      "contentPath": "book/book-03.html",
+      "revision": 1,
+      "status": "published",
+      "readingMinutes": 10,
+      "primaryTaxonomyId": "design-society",
+      "taxonomyIds": ["design-society"],
+      "tags": ["Design", "Culture"],
+      "conceptLinks": [
+        { "conceptId": "incentives", "role": "explains" },
+        { "conceptId": "interface-design", "role": "applies" }
+      ]
+    },
+    {
+      "id": "book-04",
+      "title": "The Attention Economy · 04",
+      "summary": "A fourth independent sample entry in the growing catalog.",
+      "contentPath": "book/book-04.html",
+      "revision": 1,
+      "status": "published",
+      "readingMinutes": 10,
+      "primaryTaxonomyId": "attention-focus",
+      "taxonomyIds": ["human-nature", "attention-focus"],
+      "tags": ["Learning", "Focus"],
+      "conceptLinks": [
+        { "conceptId": "attention", "role": "explains" },
+        { "conceptId": "engagement", "role": "applies" }
+      ]
+    },
+    {
+      "id": "book-05",
+      "title": "The Attention Economy · 05",
+      "summary": "A fifth copy to investigate discovery and personal organization.",
+      "contentPath": "book/book-05.html",
+      "revision": 1,
+      "status": "published",
+      "readingMinutes": 10,
+      "primaryTaxonomyId": "digital-products",
+      "taxonomyIds": ["technology", "digital-products"],
+      "tags": ["Technology", "Design"],
+      "conceptLinks": [
+        { "conceptId": "interface-design", "role": "explains" },
+        { "conceptId": "engagement", "role": "applies" }
+      ]
+    }
+  ],
+  "taxonomy": [
+    { "id": "ideas", "name": "Ideas", "parentId": null, "order": 1 },
+    { "id": "human-nature", "name": "Human nature & thinking", "parentId": "ideas", "order": 1 },
+    { "id": "attention-focus", "name": "Attention & focus", "parentId": "human-nature", "order": 1 },
+    { "id": "beliefs-bias", "name": "Beliefs & bias", "parentId": "human-nature", "order": 2 },
+    { "id": "technology", "name": "Technology & systems", "parentId": "ideas", "order": 2 },
+    { "id": "digital-products", "name": "Digital products", "parentId": "technology", "order": 1 },
+    { "id": "design-society", "name": "Design & society", "parentId": "ideas", "order": 3 }
+  ],
+  "concepts": [
+    {
+      "id": "attention",
+      "name": "Attention",
+      "description": "A limited human resource that products and systems compete to capture."
+    },
+    {
+      "id": "incentives",
+      "name": "Incentives",
+      "description": "The rewards and goals that influence how a product or organization behaves."
+    },
+    {
+      "id": "engagement",
+      "name": "Engagement",
+      "description": "A measurable signal such as time, clicks, or return visits."
+    },
+    {
+      "id": "interface-design",
+      "name": "Interface design",
+      "description": "Choices in an interface that shape what becomes easy, visible, or compelling."
+    }
+  ],
+  "conceptRelations": [
+    { "id": "attention-competes-for-incentives", "fromConceptId": "attention", "type": "competes_for", "toConceptId": "incentives" },
+    { "id": "attention-measured-as-engagement", "fromConceptId": "attention", "type": "measured_as", "toConceptId": "engagement" },
+    { "id": "incentives-shape-interface-design", "fromConceptId": "incentives", "type": "shapes", "toConceptId": "interface-design" },
+    { "id": "engagement-informs-interface-design", "fromConceptId": "engagement", "type": "informs", "toConceptId": "interface-design" }
+  ],
+  "learningPaths": [
+    {
+      "id": "understand-attention-by-design",
+      "title": "Understand attention by design",
+      "description": "Start with attention, follow the incentives, and connect the idea to design choices.",
+      "items": [
+        { "position": 1, "bookId": "book-01", "required": true, "estimatedMinutes": 10 },
+        { "position": 2, "bookId": "book-02", "required": true, "estimatedMinutes": 10 },
+        { "position": 3, "bookId": "book-03", "required": false, "estimatedMinutes": 10 }
+      ]
+    }
+  ]
+}

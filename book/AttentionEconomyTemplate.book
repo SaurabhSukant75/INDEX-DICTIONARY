@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3eb">
+  <title>The Attention Economy | Index Dictionary</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f7f3eb;
+      --page: #fffdf8;
+      --ink: #20241f;
+      --muted: #74776f;
+      --line: #ded8cb;
+      --lime: #d5ff58;
+      --reading-scale: 1;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background: var(--paper);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      min-width: 280px;
+      height: 100%;
+      min-height: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    body { height: 100dvh; }
+
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button { color: inherit; font: inherit; }
+    button:focus-visible, a:focus-visible {
+      outline: 3px solid #668500;
+      outline-offset: 3px;
+    }
+
+    .book-reader {
+      height: 100%;
+      min-height: 0;
+      padding: max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
+        max(8px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      gap: 10px;
+    }
+
+    .book-tools, .book-controls {
+      width: min(100%, 1040px);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font: 12px/1.3 Arial, sans-serif;
+    }
+
+    .book-tools {
+      min-height: 40px;
+      justify-content: space-between;
+    }
+
+    .tool-group, .book-controls { display: flex; }
+    .tool-group { align-items: center; gap: 7px; }
+
+    .tool-button, .page-button {
+      min-width: 38px;
+      min-height: 38px;
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--page);
+      cursor: pointer;
+    }
+
+    .tool-button:hover, .page-button:hover:not(:disabled) {
+      border-color: #aab487;
+      background: #f4f8e9;
+    }
+
+    .zoom-label, .page-status { color: var(--muted); }
+    .zoom-label { min-width: 39px; text-align: center; }
+
+    .stage {
+      width: min(100%, 1040px);
+      min-width: 0;
+      min-height: 0;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .book-page {
+      position: absolute;
+      inset: 0;
+      overflow: auto;
+      border: 1px solid #e5ded1;
+      border-radius: 5px 15px 15px 5px;
+      background: var(--page);
+      box-shadow: 0 16px 45px #302a1912;
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .book-page.active {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .page-content {
+      width: min(100%, 790px);
+      min-height: 100%;
+      margin: 0 auto;
+      padding: clamp(22px, 5vw, 64px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cover-page {
+      background: var(--lime);
+    }
+
+    .cover-page .page-content { justify-content: space-between; }
+
+    .eyebrow, .page-meta, .page-foot {
+      font: 700 10px/1.4 Arial, sans-serif;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow, .page-meta { color: var(--muted); }
+    .cover-page .eyebrow, .cover-page .page-meta { color: #454b39; }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-weight: 500; }
+
+    h1 {
+      max-width: 680px;
+      margin-bottom: 20px;
+      font-size: clamp(52px, 10vw, 100px);
+      line-height: .92;
+      letter-spacing: -.065em;
+    }
+
+    h2 {
+      max-width: 740px;
+      margin: 26px 0 18px;
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 1;
+      letter-spacing: -.055em;
+    }
+
+    h3 { margin-bottom: 7px; font-size: 20px; }
+
+    .prose {
+      font-size: calc(clamp(16px, 1.8vw, 19px) * var(--reading-scale));
+      line-height: 1.7;
+      color: #484b43;
+    }
+
+    .lede { max-width: 660px; }
+    .cover-page .prose { max-width: 620px; color: #30352a; }
+
+    .page-meta, .page-foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .page-foot {
+      margin-top: auto;
+      padding-top: 28px;
+      color: var(--muted);
+    }
+
+    .idea-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 15px 0;
+    }
+
+    .idea-card {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #f3f0e8;
+    }
+
+    .idea-card p { margin: 0; }
+
+    .highlight {
+      padding: 18px 20px;
+      border-left: 4px solid #a9cf42;
+      background: #f2f5e9;
+    }
+
+    .contents-list {
+      margin: 12px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .contents-list a {
+      padding: 13px 2px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+      font: 14px/1.4 Arial, sans-serif;
+      text-decoration: none;
+    }
+
+    .contents-list a:hover { color: #587400; }
+
+    .book-controls { justify-content: space-between; }
+    .page-status { flex: 1; text-align: center; }
+    .page-button:disabled { cursor: default; opacity: .45; }
+
+    dialog {
+      width: min(480px, calc(100vw - 28px));
+      max-height: min(80dvh, 680px);
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    dialog::backdrop { background: #10151077; }
+    .dialog-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .dialog-heading h2 { margin: 0; font-size: 26px; }
+
+    @media (max-width: 560px) {
+      .book-reader { gap: 7px; padding: max(6px, env(safe-area-inset-top)) 7px max(6px, env(safe-area-inset-bottom)); }
+      .book-tools, .book-controls { gap: 6px; }
+      .tool-button, .page-button { min-width: 40px; min-height: 40px; padding: 6px 8px; }
+      .page-content { padding: 24px 20px; }
+      .idea-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-height: 480px) and (orientation: landscape) {
+      .book-reader { gap: 5px; }
+      .book-tools { min-height: 34px; }
+      .tool-button, .page-button { min-height: 34px; }
+      .page-content { padding: 16px 24px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="book-reader" aria-label="The Attention Economy book">
+    <nav class="book-tools" aria-label="Book tools">
+      <button class="tool-button" id="open-contents" type="button" aria-haspopup="dialog">Contents</button>
+      <div class="tool-group" aria-label="Text size">
+        <button class="tool-button" id="zoom-out" type="button" aria-label="Decrease text size">A−</button>
+        <span class="zoom-label" id="zoom-label" aria-live="polite">Fit</span>
+        <button class="tool-button" id="zoom-in" type="button" aria-label="Increase text size">A+</button>
+        <button class="tool-button" id="zoom-fit" type="button" aria-label="Fit text to the reading canvas">Fit</button>
+      </div>
+    </nav>
+
+    <div class="stage" id="stage" aria-label="Book pages">
+      <article class="book-page cover-page active" id="cover" data-name="The Attention Economy">
+        <div class="page-content">
+          <div class="page-meta"><span>A visual field guide</span><span>01 / Attention</span></div>
+          <div>
+            <p class="eyebrow">A small book about a big idea</p>
+            <h1>The Attention Economy<span aria-hidden="true">.</span></h1>
+            <p class="prose">Every day, a thousand things ask for a moment of your time. This is a guide to why your attention matters, who competes for it, and how to spend it with intention.</p>
+          </div>
+          <div class="page-foot"><span>Read slowly. Think deeply.</span><span>Begin →</span></div>
+        </div>
+      </article>
+
+      <article class="book-page" id="contents" data-name="A map of the idea">
+        <div class="page-content">
+          <div class="page-meta"><span>Inside this book</span><span>Map</span></div>
+          <h2>A map of the idea.</h2>
+          <p class="prose lede">Five short stops, from a familiar distraction to a more deliberate way of choosing.</p>
+          <ol class="contents-list" id="contents-list"></ol>
+          <div class="page-foot"><span>Choose a chapter</span><span>Contents</span></div>
+        </div>
+      </article>
+
+      <article class="book-page" id="the-hook" data-name="The familiar hook">
+        <div class="page-content">
+          <div class="page-meta"><span>01 / Notice</span><span>The familiar hook</span></div>
+          <h2>You opened your phone for one thing.</h2>
+          <p class="prose lede">A message, perhaps. A quick check of the weather. Then a notification catches your eye, a video starts, and the original reason quietly disappears.</p>
+          <p class="prose highlight">That gap between what you meant to do and what happened next is a useful place to begin.</p>
+          <p class="prose">It is not proof that you lack discipline. It is a clue that attention is shaped by the environments we use.</p>
+          <div class="page-foot"><span>Start with a moment you recognize</span><span>01</span></div>
+        </div>
+      </article>
+
+      <article class="book-page" id="the-scarcity" data-name="A scarce resource">
+        <div class="page-content">
+          <div class="page-meta"><span>02 / Define</span><span>A scarce resource</span></div>
+          <h2>Attention is limited. The requests are not.</h2>
+          <p class="prose lede">Attention is the ability to notice, select, and stay with something. It draws on finite time and mental energy, so every choice leaves less room for another.</p>
+          <div class="idea-grid">
+            <section class="idea-card"><h3>What is scarce?</h3><p class="prose">Your focus, curiosity, and waking hours. A day does not stretch to fit every invitation.</p></section>
+            <section class="idea-card"><h3>What is competed for?</h3><p class="prose">The chance to be noticed—and to influence what you do, think, or choose next.</p></section>
+          </div>
+          <div class="page-foot"><span>Scarcity creates competition</span><span>02</span></div>
+        </div>
+      </article>
+
+      <article class="book-page" id="the-incentives" data-name="Follow the incentives">
+        <div class="page-content">
+          <div class="page-meta"><span>03 / Connect</span><span>Follow the incentives</span></div>
+          <h2>Ask what a product is rewarded for.</h2>
+          <p class="prose lede">A product's design reflects what its makers measure and value. If repeated visits or longer sessions bring reward, the experience may be tuned to invite another look.</p>
+          <p class="prose">A metric is a signal, not the whole human outcome. Time spent can mean deep learning—or time lost. Clicks can mean curiosity—or confusion.</p>
+          <p class="prose highlight"><strong>Useful question:</strong> What behavior does this design make easy, and who benefits when I do it?</p>
+          <div class="page-foot"><span>Look past the surface</span><span>03</span></div>
+        </div>
+      </article>
+
+      <article class="book-page" id="spend-it-well" data-name="Spend attention well">
+        <div class="page-content">
+          <div class="page-meta"><span>04 / Choose</span><span>Spend attention well</span></div>
+          <h2>Make room for what matters to you.</h2>
+          <p class="prose lede">You do not have to reject every notification or optimize every minute. Start by noticing what leaves you feeling informed, connected, or fulfilled—and what leaves you scattered.</p>
+          <ul class="prose">
+            <li>Choose one thing you want to give your full attention today.</li>
+            <li>Make the helpful choice easier: silence one distracting alert or put a book within reach.</li>
+            <li>Check how the choice felt, then adjust without blame.</li>
+          </ul>
+          <p class="prose highlight">Attention is part of your life. Spend some of it on purpose.</p>
+          <div class="page-foot"><span>Notice · question · choose</span><span>04</span></div>
+        </div>
+      </article>
+    </div>
+
+    <nav class="book-controls" aria-label="Page navigation">
+      <button class="page-button" id="previous-page" type="button" aria-label="Previous page">←</button>
+      <span class="page-status" id="page-status" aria-live="polite">Cover</span>
+      <button class="page-button" id="next-page" type="button" aria-label="Next page">→</button>
+    </nav>
+  </main>
+
+  <dialog id="contents-dialog" aria-labelledby="contents-title">
+    <div class="dialog-heading">
+      <h2 id="contents-title">A map of the idea</h2>
+      <button class="tool-button" id="close-contents" type="button" aria-label="Close contents">Close</button>
+    </div>
+    <ol class="contents-list" id="dialog-contents-list"></ol>
+  </dialog>
+
+  <script>
+    (() => {
+      const pages = [...document.querySelectorAll(".book-page")];
+      const status = document.getElementById("page-status");
+      const previous = document.getElementById("previous-page");
+      const next = document.getElementById("next-page");
+      const dialog = document.getElementById("contents-dialog");
+      const contents = document.getElementById("open-contents");
+      const zoomLabel = document.getElementById("zoom-label");
+      const bookId = "attention-economy-template";
+      let current = 0;
+      let textScale = 1;
+      let readySent = false;
+
+      function renderContents(list) {
+        pages.forEach((page, index) => {
+          const item = document.createElement("li");
+          const link = document.createElement("a");
+          link.href = `#${page.id}`;
+          link.textContent = `${String(index).padStart(2, "0")} — ${page.dataset.name}`;
+          link.addEventListener("click", event => {
+            event.preventDefault();
+            showPage(index);
+            if (dialog.open) dialog.close();
+          });
+          item.append(link);
+          list.append(item);
+        });
+      }
+
+      function showPage(index, updateFragment = true) {
+        current = Math.max(0, Math.min(pages.length - 1, index));
+        pages.forEach((page, pageIndex) => {
+          const active = pageIndex === current;
+          page.classList.toggle("active", active);
+          page.setAttribute("aria-hidden", String(!active));
+          if (active) page.scrollTop = 0;
+        });
+        status.textContent = `${current + 1} / ${pages.length} · ${pages[current].dataset.name}`;
+        previous.disabled = current === 0;
+        next.disabled = current === pages.length - 1;
+        document.title = `${pages[current].dataset.name} | The Attention Economy`;
+        if (updateFragment && location.hash !== `#${pages[current].id}`) {
+          location.hash = pages[current].id;
+        }
+        parent.postMessage({
+          protocol: "index-dictionary.book",
+          version: 1,
+          type: readySent ? "page-changed" : "book-ready",
+          bookId,
+          pageId: pages[current].id
+        }, "*");
+        readySent = true;
+      }
+
+      function setTextScale(value) {
+        textScale = Math.min(1.5, Math.max(.85, Math.round(value * 100) / 100));
+        document.documentElement.style.setProperty("--reading-scale", textScale);
+        zoomLabel.textContent = textScale === 1 ? "Fit" : `${Math.round(textScale * 100)}%`;
+      }
+
+      previous.addEventListener("click", () => showPage(current - 1));
+      next.addEventListener("click", () => showPage(current + 1));
+      contents.addEventListener("click", () => dialog.showModal());
+      document.getElementById("close-contents").addEventListener("click", () => dialog.close());
+      document.getElementById("zoom-out").addEventListener("click", () => setTextScale(textScale - .1));
+      document.getElementById("zoom-in").addEventListener("click", () => setTextScale(textScale + .1));
+      document.getElementById("zoom-fit").addEventListener("click", () => setTextScale(1));
+      document.addEventListener("keydown", event => {
+        if (dialog.open || event.altKey || event.ctrlKey || event.metaKey) return;
+        if (["INPUT", "TEXTAREA", "SELECT", "BUTTON", "A"].includes(document.activeElement?.tagName)) return;
+        if (event.key === "ArrowRight" || event.key === "PageDown") {
+          event.preventDefault();
+          showPage(current + 1);
+        }
+        if (event.key === "ArrowLeft" || event.key === "PageUp") {
+          event.preventDefault();
+          showPage(current - 1);
+        }
+      });
+      window.addEventListener("hashchange", () => {
+        const pageIndex = pages.findIndex(page => page.id === location.hash.slice(1));
+        if (pageIndex >= 0 && pageIndex !== current) showPage(pageIndex, false);
+      });
+
+      renderContents(document.getElementById("contents-list"));
+      renderContents(document.getElementById("dialog-contents-list"));
+      const requestedPage = pages.findIndex(page => page.id === location.hash.slice(1));
+      showPage(requestedPage >= 0 ? requestedPage : 0, false);
+    })();
+  </script>
+</body>
+</html>

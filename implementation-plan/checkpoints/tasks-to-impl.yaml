@@ -1,0 +1,986 @@
+metadata:
+  generated: "2026-10-27"
+  source_tasks: "implementation-plan/plan.md"
+  last_updated: "2026-10-27"
+
+summary:
+  total_tasks: 15
+  completed_tasks: 15
+  in_progress_tasks: 0
+  pending_tasks: 0
+  completion_percentage: 100.0
+
+tasks:
+  - task_id: "T001"
+    description: "Create the zero-dependency HTML/CSS/JavaScript scaffold and document the static-only boundary."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "index.html"
+          changes:
+            - line_start: 1
+              line_end: 29
+              change_type: "modified"
+              description: "Add the static app entrypoint."
+        - file: "src/css/tokens.css"
+          changes:
+            - line_start: 1
+              line_end: 11
+              change_type: "added"
+              description: "Add the initial design tokens."
+        - file: "src/css/app.css"
+          changes:
+            - line_start: 1
+              line_end: 102
+              change_type: "added"
+              description: "Add initial scaffold styles."
+        - file: "src/js/app.js"
+          changes:
+            - line_start: 1
+              line_end: 5
+              change_type: "added"
+              description: "Add the initial module entry point."
+        - file: "README.md"
+          changes:
+            - line_start: 1
+              line_end: 29
+              change_type: "modified"
+              description: "Document local preview, toolchain, and static scope."
+    verification:
+      build_passed: true
+      test_results:
+        command: "Node.js syntax/data checks and local HTTP smoke check"
+        passed: 1
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "Previously verified; no backend or package dependencies."
+    upstream_trace:
+      plan_item: "1.1"
+      requirements: ["FR-040", "FR-041", "FR-042", "NFR-05", "NFR-07"]
+      full_trace: "FR-040,FR-041,FR-042,NFR-05,NFR-07 → Phase-1.1 → T001"
+
+  - task_id: "T002"
+    description: "Seed five static books and implement catalog integrity validation."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "data/catalog.json"
+          changes:
+            - line_start: 1
+              line_end: 134
+              change_type: "modified"
+              description: "Seed five books, a hierarchical taxonomy, concept graph, and ordered path."
+        - file: "scripts/validate-catalog.js"
+          changes:
+            - line_start: 1
+              line_end: 289
+              change_type: "added"
+              description: "Validate stable IDs, references, safe existing HTML paths, taxonomy, and path order."
+        - file: "tests/catalog-validator.test.js"
+          changes:
+            - line_start: 1
+              line_end: 113
+              change_type: "added"
+              description: "Cover valid catalogs, duplicate IDs, invalid references, path traversal, missing files, taxonomy, and symlink escape."
+        - file: "tests/README.md"
+          changes:
+            - line_start: 1
+              line_end: 16
+              change_type: "modified"
+              description: "Document catalog validator and Node test commands."
+        - file: "book/"
+          changes:
+            - line_start: 1
+              line_end: 5
+              change_type: "modified"
+              description: "Rename the approved static content directory to lowercase book/."
+        - file: "index-dictionary-ui-ux-prototype-v1.html"
+          changes:
+            - line_start: 192
+              line_end: 196
+              change_type: "modified"
+              description: "Point the prototype reader at the lowercase book/ paths."
+        - file: "index-dictionary-prd-v1.2.html"
+          changes:
+            - line_start: 64
+              line_end: 263
+              change_type: "modified"
+              description: "Align documented static content paths with book/."
+        - file: "index-dictionary-architecture-mvp-v1.0.md"
+          changes:
+            - line_start: 34
+              line_end: 680
+              change_type: "modified"
+              description: "Align documented static content paths with book/."
+        - file: "index-dictionary-ui-ux-v1.md"
+          changes:
+            - line_start: 75
+              line_end: 75
+              change_type: "modified"
+              description: "Align documented static content paths with book/."
+        - file: "static-mvp-decisions.md"
+          changes:
+            - line_start: 11
+              line_end: 33
+              change_type: "modified"
+              description: "Align approved sample paths with book/."
+        - file: "implementation-plan/plan.md"
+          changes:
+            - line_start: 57
+              line_end: 200
+              change_type: "modified"
+              description: "Record T002 completion, lowercase paths, and the approved services/navigation/views layout."
+        - file: "implementation-plan/research.md"
+          changes:
+            - line_start: 12
+              line_end: 12
+              change_type: "modified"
+              description: "Align documented static content paths with book/."
+        - file: "implementation-plan/checkpoints/plan-to-tasks.yaml"
+          changes:
+            - line_start: 1
+              line_end: 35
+              change_type: "modified"
+              description: "Mark T002 complete in the plan-to-task trace."
+        - file: "implementation-plan/checkpoints/spec-to-plan.yaml"
+          changes:
+            - line_start: 1
+              line_end: 10
+              change_type: "modified"
+              description: "Align documented static content paths with book/."
+    verification:
+      build_passed: true
+      test_results:
+        command: "node --check scripts/validate-catalog.js && node --check tests/catalog-validator.test.js && node --test tests/catalog-validator.test.js && node scripts/validate-catalog.js"
+        passed: 6
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "Catalog CLI confirms 5 books, 7 topics, 4 concepts, and 1 learning path."
+    upstream_trace:
+      plan_item: "2.1"
+      requirements: ["FR-001", "FR-010", "FR-060", "FR-061", "FR-063", "FR-065", "NFR-08"]
+      full_trace: "FR-001,FR-010,FR-060,FR-061,FR-063,FR-065,NFR-08 → Phase-2.1 → T002"
+
+  - task_id: "T003"
+    description: "Implement the semantic shell, responsive navigation, error/status regions, and hash-based views."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "index.html"
+          changes:
+            - line_start: 1
+              line_end: 73
+              change_type: "modified"
+              description: "Replace the scaffold message with the full-width header, sidebar, mobile menu, search bar, and app mount."
+        - file: "src/js/app.js"
+          changes:
+            - line_start: 1
+              line_end: 443
+              change_type: "modified"
+              description: "Wire view rendering, state, error handling, route actions, and responsive navigation."
+        - file: "src/navigation/router.js"
+          changes:
+            - line_start: 1
+              line_end: 48
+              change_type: "added"
+              description: "Add stable hash routes and route subscriptions."
+        - file: "src/css/tokens.css"
+          changes:
+            - line_start: 1
+              line_end: 16
+              change_type: "modified"
+              description: "Define the prototype's design tokens."
+        - file: "src/css/app.css"
+          changes:
+            - line_start: 1
+              line_end: 1348
+              change_type: "modified"
+              description: "Implement the responsive shell, prototype styling, accessible states, and reader layout."
+        - file: "src/ui/markup.js"
+          changes:
+            - line_start: 1
+              line_end: 47
+              change_type: "added"
+              description: "Add shared escaped markup helpers for books and empty states."
+    verification:
+      build_passed: true
+      test_results:
+        command: "Browser route/responsive checks and Node.js ES module syntax check"
+        passed: 1
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "Header spans the viewport; sidebar begins below it; mobile menu opens and closes."
+    upstream_trace:
+      plan_item: "2.2"
+      requirements: ["FR-001", "FR-004", "FR-010", "NFR-01", "NFR-02", "NFR-07"]
+      full_trace: "FR-001,FR-004,FR-010,NFR-01,NFR-02,NFR-07 → Phase-2.2 → T003"
+
+  - task_id: "T004"
+    description: "Implement catalog search, filters, cards, and recoverable empty/error states."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "src/services/catalog-service.js"
+          changes:
+            - line_start: 1
+              line_end: 52
+              change_type: "added"
+              description: "Load catalog metadata and resolve book, concept, and taxonomy references."
+        - file: "src/services/search-service.js"
+          changes:
+            - line_start: 1
+              line_end: 23
+              change_type: "added"
+              description: "Search book titles, descriptions, topics, tags, and concepts while combining filters."
+        - file: "src/views/search.js"
+          changes:
+            - line_start: 1
+              line_end: 31
+              change_type: "added"
+              description: "Render book cards, filters, result counts, and a query-preserving no-results state."
+        - file: "src/views/home.js"
+          changes:
+            - line_start: 1
+              line_end: 17
+              change_type: "added"
+              description: "Implement the prototype's explanatory, mascot-led Home without catalog cards."
+    verification:
+      build_passed: true
+      test_results:
+        command: "Browser search query, category filter, result card, and clear-empty-state checks"
+        passed: 1
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "Search returned 3 Technology matches; no-result query displayed its query and recovered to all 5 books."
+    upstream_trace:
+      plan_item: "3.1"
+      requirements: ["FR-001", "FR-002", "FR-003", "FR-004", "FR-010"]
+      full_trace: "FR-001,FR-002,FR-003,FR-004,FR-010 → Phase-3.1 → T004"
+
+  - task_id: "T005"
+    description: "Implement ordered taxonomy browsing, breadcrumbs, direct/descendant filters."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "src/views/topics.js"
+          changes:
+            - line_start: 1
+              line_end: 52
+              change_type: "added"
+              description: "Render the nested taxonomy, breadcrumbs, direct assignments, and descendant toggle."
+        - file: "src/services/catalog-service.js"
+          changes:
+            - line_start: 23
+              line_end: 52
+              change_type: "modified"
+              description: "Add ancestor and descendant taxonomy helpers."
+    verification:
+      build_passed: true
+      test_results:
+        command: "Browser topic selection and descendant book-count check"
+        passed: 1
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "Selecting Digital products listed its 2 assigned books."
+    upstream_trace:
+      plan_item: "4.1"
+      requirements: ["FR-060", "FR-061", "FR-062"]
+      full_trace: "FR-060,FR-061,FR-062 → Phase-4.1 → T005"
+
+  - task_id: "T006"
+    description: "Implement a bounded concept graph and accessible textual relationships."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "src/views/concepts.js"
+          changes:
+            - line_start: 1
+              line_end: 70
+              change_type: "added"
+              description: "Render selectable graph nodes, typed edges, linked books, and keyboard-accessible relationship text."
+    verification:
+      build_passed: true
+      test_results:
+        command: "Browser concept selection and linked-book check"
+        passed: 1
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "Selecting Incentives updated the selected concept and linked content."
+    upstream_trace:
+      plan_item: "5.1"
+      requirements: ["FR-063", "FR-064"]
+      full_trace: "FR-063,FR-064 → Phase-5.1 → T006"
+
+  - task_id: "T007"
+    description: "Implement ordered learning path items and local completion display."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "src/views/learning-paths.js"
+          changes:
+            - line_start: 1
+              line_end: 37
+              change_type: "added"
+              description: "Render ordered required/optional steps, book links, and progress."
+        - file: "src/views/my-learning.js"
+          changes:
+            - line_start: 1
+              line_end: 36
+              change_type: "added"
+              description: "Add functional My Learning links for in-progress books and sequences."
+        - file: "src/services/reader-library-service.js"
+          changes:
+            - line_start: 1
+              line_end: 128
+              change_type: "added"
+              description: "Add the initial IndexedDB stores and reader/path progress operations needed by current views."
+        - file: "src/views/library.js"
+          changes:
+            - line_start: 1
+              line_end: 50
+              change_type: "added"
+              description: "Implement library filters, saved/in-progress/imported lists, import, and local delete actions."
+        - file: "src/views/reader.js"
+          changes:
+            - line_start: 1
+              line_end: 19
+              change_type: "added"
+              description: "Add the sandboxed reader shell with local save and completion controls."
+    verification:
+      build_passed: true
+      test_results:
+        command: "Browser learning-path completion, reader save/progress, and local HTML import/open/delete checks"
+        passed: 1
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "Sample HTML import persisted to IndexedDB, opened in a sandboxed frame, and deleted successfully. Broader library schema/management remains tracked by T010–T012."
+    upstream_trace:
+      plan_item: "6.1"
+      requirements: ["FR-065", "FR-066"]
+      full_trace: "FR-065,FR-066 → Phase-6.1 → T007"
+
+  - task_id: "T008"
+    description: "Implement validated stable reader routes and isolated HTML rendering."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "src/services/book-service.js"
+          changes:
+            - change_type: "added"
+              description: "Validate static book paths and HTML documents, enumerate unambiguous safe fragments, and construct page URLs."
+        - file: "src/navigation/router.js"
+          changes:
+            - change_type: "modified"
+              description: "Parse encoded public/imported book routes with optional validated page fragments and reject malformed paths."
+        - file: "src/js/app.js"
+          changes:
+            - change_type: "modified"
+              description: "Preflight reader content, reject unknown fragments, show loading/error states, and prevent stale async routes from rendering."
+        - file: "src/css/app.css"
+          changes:
+            - change_type: "modified"
+              description: "Disable transitions on book cards and buttons to keep pointer activation stable."
+        - file: "README.md"
+          changes:
+            - change_type: "modified"
+              description: "Document stable reader routes and validation behavior."
+        - file: "tests/README.md"
+          changes:
+            - change_type: "modified"
+              description: "Record reader deep-link and invalid-fragment browser coverage."
+    verification:
+      build_passed: true
+      test_results:
+        command: "Node ES-module syntax, catalog validation/tests, and integrated browser reader route checks"
+        passed: 4
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "All five catalog books opened directly at #page-2; an unknown page and unknown book produced explicit errors; normal search-card click opened the reader; keyboard page turning and return-to-library worked; direct deep-link refresh restored the requested page; the frame remained sandboxed with allow-scripts only."
+    upstream_trace:
+      plan_item: "7.1"
+      requirements: ["FR-004", "FR-011", "FR-012", "FR-013", "NFR-02", "NFR-06"]
+      full_trace: "FR-004,FR-011,FR-012,FR-013,NFR-02,NFR-06 → Phase-7.1 → T008"
+
+  - task_id: "T009"
+    description: "Validate book-to-shell page navigation messages."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "src/services/book-service.js"
+          changes:
+            - change_type: "modified"
+              description: "Validate the exact versioned message schema, allowed event types, active book ID, and known page IDs."
+        - file: "src/services/reader-library-service.js"
+          changes:
+            - change_type: "modified"
+              description: "Persist current and last-read page IDs atomically in the existing progress store."
+        - file: "src/js/app.js"
+          changes:
+            - change_type: "modified"
+              description: "Accept messages only from the active sandboxed iframe and its opaque origin; update the reader route without reloading and persist progress."
+        - file: "book/book-01.html"
+          changes:
+            - change_type: "modified"
+              description: "Send ready and page-changed events to the parent app."
+        - file: "book/book-02.html"
+          changes:
+            - change_type: "modified"
+              description: "Send ready and page-changed events to the parent app."
+        - file: "book/book-03.html"
+          changes:
+            - change_type: "modified"
+              description: "Send ready and page-changed events to the parent app."
+        - file: "book/book-04.html"
+          changes:
+            - change_type: "modified"
+              description: "Send ready and page-changed events to the parent app."
+        - file: "book/book-05.html"
+          changes:
+            - change_type: "modified"
+              description: "Send ready and page-changed events to the parent app."
+        - file: "book/AttentionEconomyTemplate.book"
+          changes:
+            - change_type: "modified"
+              description: "Document the parent message protocol in the reusable sample book."
+        - file: "BookTemplate.md"
+          changes:
+            - change_type: "modified"
+              description: "Document the current protocol schema and safe authoring rules."
+        - file: "tests/README.md"
+          changes:
+            - change_type: "modified"
+              description: "Record the book-to-app message and progress verification cases."
+        - file: "README.md"
+          changes:
+            - change_type: "modified"
+              description: "Document book message validation and page-progress synchronization."
+        - file: "implementation-plan/plan.md"
+          changes:
+            - change_type: "modified"
+              description: "Mark T009 complete and identify T010 as the next task."
+        - file: "implementation-plan/checkpoints/plan-to-tasks.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Mark Phase 7.2 / T009 complete."
+        - file: "implementation-plan/checkpoints/tasks-to-impl.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Record T009 implementation evidence, validation, and traceability."
+        - file: "implementation-plan/checkpoints/batch-report.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Record B05 completion and validation for T009."
+    verification:
+      build_passed: true
+      test_results:
+        command: "ES-module syntax checks, catalog validation/tests, and integrated browser protocol checks across all five books"
+        passed: 4
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "All five books updated the outer route and IndexedDB page progress; repeat-ready and forged messages from the wrong source, with the wrong book, an unknown page, or extra fields were ignored."
+    upstream_trace:
+      plan_item: "7.2"
+      requirements: ["FR-013", "FR-032", "FR-033"]
+      full_trace: "FR-013,FR-032,FR-033 → Phase-7.2 → T009"
+
+  - task_id: "T010"
+    description: "Implement versioned IndexedDB schema and persistence services."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "src/services/reader-library-service.js"
+          changes:
+            - change_type: "modified"
+              description: "Upgrade IndexedDB to schema v2, migrate imports and progress references, validate inputs, and add transaction-safe local book, collection, membership, bookmark, save, and progress helpers."
+        - file: "README.md"
+          changes:
+            - change_type: "modified"
+              description: "Document versioned private browser storage and explicit quota/unavailable errors."
+        - file: "index-dictionary-architecture-mvp-v1.0.md"
+          changes:
+            - change_type: "modified"
+              description: "Document the implemented schema v2 stores, migration behavior, and compatibility key formats."
+        - file: "tests/README.md"
+          changes:
+            - change_type: "modified"
+              description: "Record fresh schema, v1 migration, transaction, validation, and storage-error browser checks."
+        - file: "implementation-plan/plan.md"
+          changes:
+            - change_type: "modified"
+              description: "Mark T010 complete and identify T011 as the next task."
+        - file: "implementation-plan/checkpoints/plan-to-tasks.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Mark T010 in Phase 8.1 complete."
+        - file: "implementation-plan/checkpoints/tasks-to-impl.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Record T010 files, migration evidence, validation, and traceability."
+        - file: "implementation-plan/checkpoints/batch-report.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Record B06 completion and validation for T010."
+    verification:
+      build_passed: true
+      test_results:
+        command: "ES-module syntax checks, catalog validation/tests, browser fresh-schema and v1 migration checks, persistence helper/cascade checks, and storage-error mapping"
+        passed: 10
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "Verified schema v2 fresh creation and upgrade from v1 with saved-book, import, page-progress, and path-progress data preserved; the legacy import store was removed only after migration. Browser checks covered collection membership/idempotency and deletion, bookmark filtering/deletion, progress updates, invalid-input rejection, and explicit unavailable/quota errors."
+    upstream_trace:
+      plan_item: "8.1"
+      requirements: ["FR-030", "FR-031", "FR-032", "FR-033", "FR-034", "FR-066", "NFR-03", "NFR-05"]
+      full_trace: "FR-030,FR-031,FR-032,FR-033,FR-034,FR-066,NFR-03,NFR-05 → Phase-8.1 → T010"
+
+  - task_id: "T011"
+    description: "Implement library organization and reader continuity."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "src/views/library.js"
+          changes:
+            - change_type: "modified"
+              description: "Add library filters, collection management and membership controls, saved/imported/progress actions, and bookmark listings."
+        - file: "src/js/app.js"
+          changes:
+            - change_type: "modified"
+              description: "Wire collection CRUD, memberships, bookmarks, save/completion, resume/restart, and confirmed cleanup to IndexedDB."
+        - file: "src/views/reader.js"
+          changes:
+            - change_type: "modified"
+              description: "Expose reader save, completion, and current-page bookmark actions without reloading the book frame."
+        - file: "src/navigation/router.js"
+          changes:
+            - change_type: "modified"
+              description: "Support restart routes while preserving explicit page-fragment precedence over saved progress."
+        - file: "src/css/app.css"
+          changes:
+            - change_type: "modified"
+              description: "Style library panels, inline collection rename, book rows, and narrow-screen layouts."
+        - file: "README.md"
+          changes:
+            - change_type: "modified"
+              description: "Document local library organization and reading continuity."
+        - file: "tests/README.md"
+          changes:
+            - change_type: "modified"
+              description: "Record browser coverage for library filters, collection CRUD, bookmarks, reader continuity, deletion, and responsive layout."
+        - file: "implementation-plan/plan.md"
+          changes:
+            - change_type: "modified"
+              description: "Mark T011 complete and identify T012 as the next task."
+        - file: "implementation-plan/checkpoints/plan-to-tasks.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Mark T011 in Phase 8.1 complete."
+        - file: "implementation-plan/checkpoints/tasks-to-impl.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Record T011 implementation, verification, and traceability."
+        - file: "implementation-plan/checkpoints/batch-report.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Record B07 completion and validation for T011."
+    verification:
+      build_passed: true
+      test_results:
+        command: "JavaScript module syntax checks, catalog validation and tests, plus browser verification of library CRUD, filters, bookmarks, reading continuity, deletion, and responsive layout."
+        passed: 8
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "Browser checks confirmed inline rename (including whitespace rejection), collection creation/deletion and book membership, all library tabs, bookmark navigation, save/completion actions, resume/restart, explicit URL-page precedence, imported-book cascade deletion, confirmed clear-all, and no horizontal overflow at 320–1280px. No page errors were observed."
+    upstream_trace:
+      plan_item: "8.1"
+      requirements: ["FR-030", "FR-031", "FR-032", "FR-033", "FR-034"]
+      full_trace: "FR-030,FR-031,FR-032,FR-033,FR-034 → Phase-8.1 → T011"
+
+  - task_id: "T012"
+    description: "Implement validated private local HTML imports."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "src/services/book-service.js"
+          changes:
+            - change_type: "modified"
+              description: "Create isolated imported-book blob URLs with a restrictive Content Security Policy that blocks external resources."
+        - file: "src/services/reader-library-service.js"
+          changes:
+            - change_type: "modified"
+              description: "Validate imported filename, HTML content size, title, and category; transactionally save with optional collection membership and update metadata."
+        - file: "src/views/library.js"
+          changes:
+            - change_type: "modified"
+              description: "Add preview-first import and metadata editor, sandboxed preview, optional collection selector, imported-book editing action, and category display."
+        - file: "src/js/app.js"
+          changes:
+            - change_type: "modified"
+              description: "Validate selected files, preview without persistence, save on confirmation, edit metadata, cancel/revoke preview URLs, and render imports through the isolated blob helper."
+        - file: "src/css/app.css"
+          changes:
+            - change_type: "modified"
+              description: "Style the import metadata editor and responsive sandbox preview."
+        - file: "README.md"
+          changes:
+            - change_type: "modified"
+              description: "Document local import size, preview, metadata, privacy, and sandbox behavior."
+        - file: "index-dictionary-architecture-mvp-v1.0.md"
+          changes:
+            - change_type: "modified"
+              description: "Record the implemented local import isolation, policy, and lifecycle requirements."
+        - file: "tests/README.md"
+          changes:
+            - change_type: "modified"
+              description: "Record import rejection, preview/cancel, persistence, metadata, collection, deletion, CSP, and responsive browser checks."
+        - file: "implementation-plan/plan.md"
+          changes:
+            - change_type: "modified"
+              description: "Mark T012 complete and identify T013 as the next task."
+        - file: "implementation-plan/checkpoints/plan-to-tasks.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Mark T012 in Phase 9.1 complete."
+        - file: "implementation-plan/checkpoints/tasks-to-impl.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Record T012 implementation, verification, and traceability."
+        - file: "implementation-plan/checkpoints/batch-report.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Record B08 completion and validation for T012."
+    verification:
+      build_passed: true
+      test_results:
+        command: "JavaScript module syntax checks, catalog validation and tests, plus browser checks for valid/invalid uploads, cancel-before-save, local metadata/collection CRUD, persistence, CSP isolation, cascade deletion, and responsive preview."
+        passed: 9
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "All six catalog tests passed. Browser checks rejected unsupported, malformed, and >2 MiB files without creating records; confirmed preview content was not saved before confirmation; saved and edited title/category; assigned and reopened an import after reload; verified CSP blocks an external image and the parent cannot access the sandbox frame; confirmed deletion removes collection membership and progress; clear-all removed remaining test data; preview layouts had no overflow at 320, 375, 760, and 1024 CSS px. No application page errors occurred."
+    upstream_trace:
+      plan_item: "9.1"
+      requirements: ["FR-020", "FR-021", "FR-022", "FR-023", "NFR-03", "NFR-05", "NFR-06"]
+      full_trace: "FR-020,FR-021,FR-022,FR-023,NFR-03,NFR-05,NFR-06 → Phase-9.1 → T012"
+
+  - task_id: "T013"
+    description: "Implement safe public book and page sharing."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "src/views/reader.js"
+          changes:
+            - change_type: "modified"
+              description: "Add public book share and current-page link controls; show an explicit device-only notice for imported books without exposing share controls."
+        - file: "src/js/app.js"
+          changes:
+            - change_type: "modified"
+              description: "Build canonical public catalog URLs, share with Web Share API and clipboard fallback, and copy only validated current-page links."
+        - file: "src/css/app.css"
+          changes:
+            - change_type: "modified"
+              description: "Allow reader controls to wrap without horizontal overflow at narrow widths."
+        - file: "README.md"
+          changes:
+            - change_type: "modified"
+              description: "Document public book/page sharing and the local-import privacy boundary."
+        - file: "tests/README.md"
+          changes:
+            - change_type: "modified"
+              description: "Record native share, copy fallback, validated page links, local import guard, and responsive checks."
+        - file: "implementation-plan/plan.md"
+          changes:
+            - change_type: "modified"
+              description: "Mark T013 complete and identify T014 as the next task."
+        - file: "implementation-plan/checkpoints/plan-to-tasks.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Mark T013 in Phase 10.1 complete."
+        - file: "implementation-plan/checkpoints/tasks-to-impl.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Record T013 implementation, verification, and traceability."
+        - file: "implementation-plan/checkpoints/batch-report.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Record B09 completion and validation for T013."
+    verification:
+      build_passed: true
+      test_results:
+        command: "JavaScript module syntax checks, catalog validation and tests, plus browser checks of native sharing, clipboard fallback, validated page links, local-only import behavior, and responsive reader controls."
+        passed: 8
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "Browser checks confirmed native share receives the canonical #read/{bookId} URL; unsupported share falls back to copying that same URL; current-page copy emits a valid #read/{bookId}/{pageId} fragment; imported books show a device-only notice and no share controls; reader controls fit at 320, 375, 760, and 1024 CSS px. Temporary local import data was deleted."
+    upstream_trace:
+      plan_item: "10.1"
+      requirements: ["FR-050"]
+      full_trace: "FR-050 → Phase-10.1 → T013"
+
+  - task_id: "T014"
+    description: "Complete keyboard, assistive-technology semantics, responsive, contrast, text-scale, and reduced-motion verification."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "src/js/app.js"
+          changes:
+            - change_type: "modified"
+              description: "Enable mobile sidebar focus before moving focus into it; preserve focus after topic, graph, search/library filter, and path updates."
+        - file: "src/views/library.js"
+          changes:
+            - change_type: "modified"
+              description: "Use a named toggle-button group instead of an invalid tablist pattern."
+        - file: "src/views/search.js"
+          changes:
+            - change_type: "modified"
+              description: "Expose search filter buttons as a named group."
+        - file: "src/views/topics.js"
+          changes:
+            - change_type: "modified"
+              description: "Expose taxonomy selection buttons as a named group."
+        - file: "src/css/tokens.css"
+          changes:
+            - change_type: "modified"
+              description: "Raise muted-text contrast while preserving the existing palette."
+        - file: "src/css/app.css"
+          changes:
+            - change_type: "modified"
+              description: "Apply the accessible muted color to small labels, navigation headings, and graph relation labels."
+        - file: "tests/README.md"
+          changes:
+            - change_type: "modified"
+              description: "Record keyboard, semantics, contrast, responsive, text-scale, and reduced-motion verification."
+    verification:
+      build_passed: true
+      test_results:
+        command: "Integrated browser checks across primary views; keyboard activation/focus retention; 320–1280 CSS px layouts; 200% page-scale layout; reduced-motion emulation; visible focus and rendered-text contrast."
+        passed: 6
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "All seven non-reader routes had one H1, no duplicate IDs, no unnamed interactive controls, and no tablist misuse. Focus remained on the updated library/search/topic/concept/path control; the mobile menu opened with focus inside, closed on Escape, and returned focus to its trigger. No horizontal overflow occurred in 48 route/viewport combinations. Rendered-text contrast had no WCAG AA threshold failures after the muted color adjustment."
+    upstream_trace:
+      plan_item: "11.1"
+      requirements: ["FR-012", "FR-051", "NFR-01", "NFR-02", "NFR-07"]
+      full_trace: "FR-012,FR-051,NFR-01,NFR-02,NFR-07 → Phase-11.1 → T014"
+
+  - task_id: "T015"
+    description: "Complete static catalog, privacy, storage-failure, browser, and hosting validation."
+    status: "completed"
+    implementation:
+      files_changed:
+        - file: "README.md"
+          changes:
+            - change_type: "modified"
+              description: "Document static deployment paths, HTTPS/MIME requirements, release checks, cache/revocation constraints, and no-build workflow."
+        - file: "tests/README.md"
+          changes:
+            - change_type: "modified"
+              description: "Record release checks, local-only storage/privacy evidence, LCP profile, and browser support limitations."
+        - file: "implementation-plan/plan.md"
+          changes:
+            - change_type: "modified"
+              description: "Mark T014 and T015 complete and update the execution checkpoint."
+        - file: "implementation-plan/checkpoints/plan-to-tasks.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Mark T014 and T015 completed."
+        - file: "implementation-plan/checkpoints/tasks-to-impl.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Record T014/T015 implementation evidence and completion."
+        - file: "implementation-plan/checkpoints/batch-report.yaml"
+          changes:
+            - change_type: "modified"
+              description: "Record final release batch B10."
+    verification:
+      build_passed: true
+      test_results:
+        command: "Syntax checks, catalog validator, six catalog tests, local HTTP/MIME checks, all five book loads, same-origin request review, IndexedDB unavailable/quota browser cases, and mobile LCP profile."
+        passed: 8
+        failed: 0
+        skipped: 0
+        failures: []
+      notes: "All nine static HTTP resources returned 200 with expected MIME types. All five sample books loaded in sandboxed frames without same-origin permission; browser resources stayed on localhost and there were no page errors or failed requests. IndexedDB-unavailable and simulated quota errors were explicit and did not report a successful save. Local 390×844 warm-cache LCP was approximately 440 ms without CPU/network throttling; this is a smoke result, not a production benchmark. Only integrated Chromium was exercised."
+    upstream_trace:
+      plan_item: "11.2"
+      requirements: ["FR-004", "FR-023", "FR-042", "NFR-03", "NFR-04", "NFR-05", "NFR-06", "NFR-07", "NFR-08"]
+      full_trace: "FR-004,FR-023,FR-042,NFR-03,NFR-04,NFR-05,NFR-06,NFR-07,NFR-08 → Phase-11.2 → T015"
+
+pending_tasks: []
+
+untracked_changes: []
+
+traceability_chain:
+  - chain_id: "TRACE-001"
+    requirement: "FR-040, FR-041, FR-042, NFR-05, NFR-07"
+    plan_phase: "Phase-1"
+    plan_item: "1.1"
+    tasks: ["T001"]
+    files:
+      - "index.html"
+      - "README.md"
+      - "static-mvp-decisions.md"
+    status: "complete"
+  - chain_id: "TRACE-002"
+    requirement: "FR-001, FR-010, FR-060, FR-061, FR-063, FR-065, NFR-08"
+    plan_phase: "Phase-2"
+    plan_item: "2.1"
+    tasks: ["T002"]
+    files:
+      - "data/catalog.json"
+      - "scripts/validate-catalog.js"
+      - "tests/catalog-validator.test.js"
+    status: "complete"
+  - chain_id: "TRACE-003"
+    requirement: "FR-001, FR-004, FR-010, NFR-01, NFR-02, NFR-07"
+    plan_phase: "Phase-2"
+    plan_item: "2.2"
+    tasks: ["T003"]
+    files:
+      - "index.html"
+      - "src/js/app.js"
+      - "src/navigation/router.js"
+      - "src/css/app.css"
+    status: "complete"
+  - chain_id: "TRACE-004"
+    requirement: "FR-001, FR-002, FR-003, FR-004, FR-010"
+    plan_phase: "Phase-3"
+    plan_item: "3.1"
+    tasks: ["T004"]
+    files:
+      - "src/services/catalog-service.js"
+      - "src/services/search-service.js"
+      - "src/views/search.js"
+    status: "complete"
+  - chain_id: "TRACE-005"
+    requirement: "FR-060, FR-061, FR-062"
+    plan_phase: "Phase-4"
+    plan_item: "4.1"
+    tasks: ["T005"]
+    files:
+      - "src/views/topics.js"
+      - "src/services/catalog-service.js"
+    status: "complete"
+  - chain_id: "TRACE-006"
+    requirement: "FR-063, FR-064"
+    plan_phase: "Phase-5"
+    plan_item: "5.1"
+    tasks: ["T006"]
+    files:
+      - "src/views/concepts.js"
+    status: "complete"
+  - chain_id: "TRACE-007"
+    requirement: "FR-065, FR-066"
+    plan_phase: "Phase-6"
+    plan_item: "6.1"
+    tasks: ["T007"]
+    files:
+      - "src/views/learning-paths.js"
+      - "src/services/reader-library-service.js"
+    status: "complete"
+  - chain_id: "TRACE-008"
+    requirement: "FR-004, FR-011, FR-012, FR-013, NFR-02, NFR-06"
+    plan_phase: "Phase-7"
+    plan_item: "7.1"
+    tasks: ["T008"]
+    files:
+      - "src/services/book-service.js"
+      - "src/navigation/router.js"
+      - "src/js/app.js"
+      - "src/views/reader.js"
+    status: "complete"
+  - chain_id: "TRACE-009"
+    requirement: "FR-013, FR-032, FR-033"
+    plan_phase: "Phase-7"
+    plan_item: "7.2"
+    tasks: ["T009"]
+    files:
+      - "src/services/book-service.js"
+      - "src/services/reader-library-service.js"
+      - "src/js/app.js"
+      - "book/book-01.html"
+      - "book/book-02.html"
+      - "book/book-03.html"
+      - "book/book-04.html"
+      - "book/book-05.html"
+    status: "complete"
+  - chain_id: "TRACE-010"
+    requirement: "FR-030, FR-031, FR-032, FR-033, FR-034, FR-066, NFR-03, NFR-05"
+    plan_phase: "Phase-8"
+    plan_item: "8.1"
+    tasks: ["T010"]
+    files:
+      - "src/services/reader-library-service.js"
+    status: "complete"
+  - chain_id: "TRACE-011"
+    requirement: "FR-030, FR-031, FR-032, FR-033, FR-034"
+    plan_phase: "Phase-8"
+    plan_item: "8.1"
+    tasks: ["T011"]
+    files:
+      - "src/views/library.js"
+      - "src/js/app.js"
+      - "src/views/reader.js"
+      - "src/navigation/router.js"
+    status: "complete"
+  - chain_id: "TRACE-012"
+    requirement: "FR-020, FR-021, FR-022, FR-023, NFR-03, NFR-05, NFR-06"
+    plan_phase: "Phase-9"
+    plan_item: "9.1"
+    tasks: ["T012"]
+    files:
+      - "src/services/book-service.js"
+      - "src/services/reader-library-service.js"
+      - "src/views/library.js"
+      - "src/js/app.js"
+    status: "complete"
+  - chain_id: "TRACE-013"
+    requirement: "FR-050"
+    plan_phase: "Phase-10"
+    plan_item: "10.1"
+    tasks: ["T013"]
+    files:
+      - "src/views/reader.js"
+      - "src/js/app.js"
+    status: "complete"
+  - chain_id: "TRACE-014"
+    requirement: "FR-012, FR-051, NFR-01, NFR-02, NFR-07"
+    plan_phase: "Phase-11"
+    plan_item: "11.1"
+    tasks: ["T014"]
+    files:
+      - "src/js/app.js"
+      - "src/views/library.js"
+      - "src/views/search.js"
+      - "src/views/topics.js"
+      - "src/css/tokens.css"
+      - "src/css/app.css"
+    status: "complete"
+  - chain_id: "TRACE-015"
+    requirement: "FR-004, FR-023, FR-042, NFR-03, NFR-04, NFR-05, NFR-06, NFR-07, NFR-08"
+    plan_phase: "Phase-11"
+    plan_item: "11.2"
+    tasks: ["T015"]
+    files:
+      - "README.md"
+      - "tests/README.md"
+      - "implementation-plan/plan.md"
+    status: "complete"
+
+validation:
+  passed: true
+  errors: []
+  warnings: []
+  blocking_issues: []
