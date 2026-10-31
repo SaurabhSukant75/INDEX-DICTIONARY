@@ -30,6 +30,12 @@ Use `python3 -m http.server 8000` from the project root, then open `http://local
 - Guaranteed prevention of direct access to or revocation of already cached static book URLs.
 - Reader accounts and synchronization.
 
+## Follow-up scope update (2026-10-31)
+
+The reader-account deferral above is superseded by the Supabase integration documented in [`README.md`](README.md). The static frontend remains plain browser JavaScript on GitHub Pages; Supabase now provides email/password authentication, per-user cloud copies of public-book and learning-path progress, and an opt-in aggregate leaderboard. IndexedDB remains the local source for imports and private library data. Imported HTML, bookmarks, saved books, and collections are not uploaded.
+
+The leaderboard exposes only an opted-in username and a count of completed books. Completion records are client-submitted and self-reported, so this is not a tamper-resistant competitive score. The SQL schema and RLS policies are in [`supabase/schema.sql`](supabase/schema.sql).
+
 For this MVP, shared catalog updates are repository changes to the JSON manifest and manually committed `book/` files, followed by static redeployment. Repository/hosting permissions protect changes; they are not represented as in-app editor authentication. Removing a book from the manifest removes it from discovery but cannot guarantee immediate revocation of a direct or cached static URL. Do not add client-side passwords or pretend a static UI can enforce editor authorization.
 
 The original architecture document retains future API/database design detail. Its top-level static-only amendment identifies which recommendations are not active for this implementation.

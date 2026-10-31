@@ -1,4 +1,4 @@
-const ROUTES = new Set(["home", "my-learning", "search", "topics", "concepts", "paths", "library"]);
+const ROUTES = new Set(["home", "my-learning", "search", "topics", "concepts", "paths", "library", "account", "leaderboard"]);
 const listeners = new Set();
 
 function parseHash() {

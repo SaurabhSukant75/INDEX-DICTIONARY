@@ -453,6 +453,7 @@ export async function recordBookOpened(bookId) {
         bookRef: bookReference(bookId),
         firstOpenedAt: existing.firstOpenedAt || now,
         lastOpenedAt: now,
+        updatedAt: now,
         completed: existing.completed === true
       };
       putSafely(transaction, store, updatedRecord, abortWithError);
@@ -479,6 +480,7 @@ export async function recordBookPage(bookId, pageId) {
         currentPageId: pageId,
         lastPageId: pageId,
         lastPageChangedAt: now,
+        updatedAt: now,
         completed: existing.completed === true
       };
       putSafely(transaction, store, updatedRecord, abortWithError);
@@ -502,6 +504,7 @@ export async function setBookCompleted(bookId, completed) {
         bookRef: bookReference(bookId),
         firstOpenedAt: existing.firstOpenedAt || now,
         lastOpenedAt: now,
+        updatedAt: now,
         completed
       };
       putSafely(transaction, store, updatedRecord, abortWithError);
@@ -515,6 +518,35 @@ export async function getPathProgress() {
     request.onsuccess = () => setResult(request.result);
   }, "Could not read learning-path progress.");
   return new Map(records.map(record => [record.pathId, record]));
+}
+
+export async function mergeSyncedBookProgress(record) {
+  validateIdentifier(record.bookId, "Book ID");
+  if (record.bookId.startsWith("import-")) throw new TypeError("Imported books cannot be synced.");
+  if (record.currentPageId !== null && record.currentPageId !== undefined) {
+    validatePageId(record.currentPageId);
+  }
+  if (typeof record.completed !== "boolean" || !Number.isFinite(record.updatedAt)) {
+    throw new TypeError("Synced book progress is invalid.");
+  }
+  return transact(STORES.progress, "readwrite", (transaction, _setResult, abortWithError) => {
+    const store = transaction.objectStore(STORES.progress);
+    const read = store.get(record.bookId);
+    read.onsuccess = () => {
+      const existing = read.result || {};
+      const pageId = record.currentPageId ?? existing.currentPageId ?? existing.lastPageId ?? null;
+      putSafely(transaction, store, {
+        ...existing,
+        bookId: record.bookId,
+        bookRef: bookReference(record.bookId),
+        currentPageId: pageId,
+        lastPageId: pageId,
+        completed: record.completed,
+        updatedAt: record.updatedAt,
+        lastOpenedAt: record.updatedAt
+      }, abortWithError);
+    };
+  }, "Could not apply synced book progress to this device.");
 }
 
 export async function setPathCompleted(pathId, completed) {
@@ -535,6 +567,25 @@ export async function setPathCompleted(pathId, completed) {
       putSafely(transaction, store, updatedRecord, abortWithError);
     };
   }, "Could not update learning-path progress. Check available browser storage.").then(() => updatedRecord);
+}
+
+export async function mergeSyncedPathProgress(record) {
+  validateIdentifier(record.pathId, "Learning path ID");
+  if (typeof record.completed !== "boolean" || !Number.isFinite(record.updatedAt)) {
+    throw new TypeError("Synced learning-path progress is invalid.");
+  }
+  return transact(STORES.paths, "readwrite", (transaction, _setResult, abortWithError) => {
+    const store = transaction.objectStore(STORES.paths);
+    const read = store.get(record.pathId);
+    read.onsuccess = () => {
+      putSafely(transaction, store, {
+        ...(read.result || {}),
+        pathId: record.pathId,
+        completed: record.completed,
+        updatedAt: record.updatedAt
+      }, abortWithError);
+    };
+  }, "Could not apply synced learning-path progress to this device.");
 }
 
 export async function getCollections() {

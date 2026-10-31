@@ -32,11 +32,19 @@ import {
   updateImportedBook,
   setPathCompleted
 } from "../services/reader-library-service.js";
+import {
+  createSupabaseClient,
+  saveBookProgressToCloud,
+  savePathProgressToCloud,
+  syncProgress
+} from "../services/supabase-service.js";
 import { escapeHtml } from "../ui/markup.js";
+import { renderAccount } from "../views/account.js";
 import { renderConcepts } from "../views/concepts.js";
 import { renderHome } from "../views/home.js";
 import { renderLearningPaths } from "../views/learning-paths.js";
 import { renderLibrary } from "../views/library.js";
+import { renderLeaderboard } from "../views/leaderboard.js";
 import { renderMyLearning } from "../views/my-learning.js";
 import { renderReader } from "../views/reader.js";
 import { renderSearch } from "../views/search.js";
@@ -75,7 +83,18 @@ const state = {
   importDraft: null,
   readerContext: null,
   readerRequestId: 0,
-  toastTimer: null
+  toastTimer: null,
+  supabase: null,
+  authInitializing: true,
+  authError: "",
+  account: null,
+  profile: null,
+  accountRevision: 0,
+  accountLoading: false,
+  accountBusy: false,
+  accountError: "",
+  accountMessage: "",
+  leaderboard: { status: "idle", entries: [], error: "" }
 };
 
 function announce(message, isError = false) {
@@ -111,6 +130,8 @@ function titleForRoute(route) {
     concepts: "Concept",
     paths: "Learning Path",
     library: "My Library",
+    account: "Account",
+    leaderboard: "Leaderboard",
     reader: "Reading"
   };
   return titles[route.name] || "Home";
@@ -249,8 +270,9 @@ function renderReaderRoute(route) {
     };
     frame.src = createBookPageUrl(bookUrl, requestedPageId);
     try {
-      await recordBookOpened(record.id);
+      const progress = await recordBookOpened(record.id);
       state.progress = await getReadingProgress();
+      await syncBookProgress(progress);
     } catch (error) {
       if (isCurrentRequest()) announce(`Reading progress could not be saved: ${error.message}`, true);
     }
@@ -300,6 +322,18 @@ function renderRoute(route) {
       selectedCollectionId: state.selectedCollectionId,
       renamingCollectionId: state.renamingCollectionId,
       importDraft: state.importDraft
+    }),
+    account: () => renderAccount({
+      configured: Boolean(state.supabase),
+      loading: state.authInitializing || state.accountLoading || state.accountBusy,
+      user: state.account,
+      profile: state.profile,
+      error: state.accountError || state.authError,
+      message: state.accountMessage
+    }),
+    leaderboard: () => renderLeaderboard({
+      ...state.leaderboard,
+      user: state.account
     })
   };
   const renderer = routeRenderers[route.name] || renderHome;
@@ -311,6 +345,9 @@ function renderRoute(route) {
   if (route.name === "search") {
     const pageSearch = root.querySelector("#page-search");
     if (pageSearch) pageSearch.value = state.query;
+  }
+  if (route.name === "leaderboard" && state.leaderboard.status === "idle") {
+    void refreshLeaderboard();
   }
 }
 
@@ -338,6 +375,104 @@ async function refreshLibraryState() {
     state.selectedCollectionId = "";
   }
   state.storageError = "";
+}
+
+function updateAccountRoute() {
+  if (state.route.name === "account" || state.route.name === "leaderboard") {
+    renderRoute(state.route);
+  }
+}
+
+async function applyAccountSession(session) {
+  const revision = ++state.accountRevision;
+  state.account = session?.user || null;
+  state.profile = null;
+  state.accountError = "";
+  state.accountMessage = "";
+  state.accountLoading = Boolean(state.account);
+  if (!state.account) {
+    state.leaderboard = { status: "idle", entries: [], error: "" };
+    updateAccountRoute();
+    return;
+  }
+
+  updateAccountRoute();
+  try {
+    const userId = state.account.id;
+    const { data: profile, error } = await state.supabase.from("profiles")
+      .select("username,leaderboard_opt_in")
+      .eq("id", userId)
+      .maybeSingle();
+    if (error) throw error;
+    if (!profile) throw new Error("Your profile is missing. Run supabase/schema.sql in the Supabase SQL Editor.");
+    const synced = await syncProgress(state.supabase, userId, state.progress, state.pathProgress);
+    if (revision !== state.accountRevision) return;
+    state.profile = profile;
+    state.progress = synced.progress;
+    state.pathProgress = synced.pathProgress;
+    state.leaderboard = { status: "idle", entries: [], error: "" };
+  } catch (error) {
+    if (revision !== state.accountRevision) return;
+    state.accountError = `Signed in, but account data could not be loaded or synced: ${error.message}`;
+  } finally {
+    if (revision === state.accountRevision) {
+      state.accountLoading = false;
+      updateAccountRoute();
+    }
+  }
+}
+
+async function initializeSupabase() {
+  try {
+    state.supabase = await createSupabaseClient();
+    state.supabase.auth.onAuthStateChange((event, session) => {
+      if (event !== "INITIAL_SESSION" && event !== "TOKEN_REFRESHED") {
+        window.setTimeout(() => void applyAccountSession(session), 0);
+      }
+    });
+    const { data, error } = await state.supabase.auth.getSession();
+    if (error) throw error;
+    state.authInitializing = false;
+    await applyAccountSession(data.session);
+  } catch (error) {
+    state.authInitializing = false;
+    state.authError = error.message;
+    updateAccountRoute();
+  }
+}
+
+async function refreshLeaderboard() {
+  if (!state.supabase || state.leaderboard.status === "loading") return;
+  state.leaderboard = { status: "loading", entries: [], error: "" };
+  if (state.route.name === "leaderboard") renderRoute(state.route);
+  try {
+    const { data, error } = await state.supabase.rpc("get_public_leaderboard");
+    if (error) throw error;
+    state.leaderboard = { status: "ready", entries: data || [], error: "" };
+  } catch (error) {
+    state.leaderboard = { status: "error", entries: [], error: error.message };
+  }
+  if (state.route.name === "leaderboard") renderRoute(state.route);
+}
+
+async function syncBookProgress(record) {
+  if (!state.supabase || !state.account || record.bookId.startsWith("import-")) return;
+  try {
+    await saveBookProgressToCloud(state.supabase, state.account.id, record);
+    state.leaderboard = { status: "idle", entries: [], error: "" };
+    if (state.route.name === "leaderboard") renderRoute(state.route);
+  } catch (error) {
+    announce(`Progress was saved on this device but could not sync: ${error.message}`, true);
+  }
+}
+
+async function syncPathProgress(record) {
+  if (!state.supabase || !state.account) return;
+  try {
+    await savePathProgressToCloud(state.supabase, state.account.id, record);
+  } catch (error) {
+    announce(`Path progress was saved on this device but could not sync: ${error.message}`, true);
+  }
 }
 
 function openBook(id, pageId = null, restart = false) {
@@ -375,8 +510,9 @@ async function toggleSaved(id) {
 async function toggleCompleted(id) {
   const completed = state.progress.get(id)?.completed === true;
   try {
-    await setBookCompleted(id, !completed);
+    const updated = await setBookCompleted(id, !completed);
     state.progress = await getReadingProgress();
+    await syncBookProgress(updated);
     announce(completed ? "Book marked as in progress." : "Book marked complete.");
     if (state.route.name === "reader") {
       const button = root.querySelector("[data-toggle-complete]");
@@ -647,13 +783,87 @@ async function clearLibrary() {
 async function togglePathCompleted(id) {
   const completed = state.pathProgress.get(id)?.completed === true;
   try {
-    await setPathCompleted(id, !completed);
+    const updated = await setPathCompleted(id, !completed);
     state.pathProgress = await getPathProgress();
+    await syncPathProgress(updated);
     announce(completed ? "Learning path marked incomplete." : "Learning path marked complete.");
     renderRoute(state.route);
     focusControl("data-complete-path", id);
   } catch (error) {
     announce(`Could not update learning path: ${error.message}`, true);
+  }
+}
+
+async function submitAuthForm(form) {
+  if (!state.supabase || state.accountBusy) return;
+  const formType = form.dataset.authForm;
+  const email = form.elements.namedItem("email").value.trim();
+  const password = form.elements.namedItem("password").value;
+  state.accountBusy = true;
+  state.accountError = "";
+  state.accountMessage = "";
+  try {
+    if (formType === "signup") {
+      const username = form.elements.namedItem("username").value.trim();
+      const { data, error } = await state.supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}${window.location.pathname}${window.location.search}`,
+          data: { username }
+        }
+      });
+      if (error) throw error;
+      state.accountMessage = data.session
+        ? "Account created. Your progress is syncing."
+        : "Account created. Check your email to confirm the address, then sign in.";
+    } else {
+      const { error } = await state.supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
+      state.accountMessage = "Signed in. Syncing your progress.";
+    }
+  } catch (error) {
+    state.accountError = error.message;
+  } finally {
+    state.accountBusy = false;
+    updateAccountRoute();
+  }
+}
+
+async function saveAccountSettings(form) {
+  if (!state.supabase || !state.account || state.accountBusy) return;
+  const username = form.elements.namedItem("username").value.trim();
+  const leaderboardOptIn = form.elements.namedItem("leaderboard_opt_in").checked;
+  state.accountBusy = true;
+  state.accountError = "";
+  state.accountMessage = "";
+  try {
+    const { data, error } = await state.supabase.from("profiles")
+      .update({ username, leaderboard_opt_in: leaderboardOptIn })
+      .eq("id", state.account.id)
+      .select("username,leaderboard_opt_in")
+      .single();
+    if (error) throw error;
+    state.profile = data;
+    state.accountMessage = "Account settings saved.";
+    state.leaderboard = { status: "idle", entries: [], error: "" };
+  } catch (error) {
+    state.accountError = error.message;
+  } finally {
+    state.accountBusy = false;
+    updateAccountRoute();
+  }
+}
+
+async function signOut() {
+  if (!state.supabase) return;
+  try {
+    const { error } = await state.supabase.auth.signOut();
+    if (error) throw error;
+    state.accountMessage = "You are signed out. Your local reading data remains on this device.";
+  } catch (error) {
+    state.accountError = error.message;
+    updateAccountRoute();
   }
 }
 
@@ -826,6 +1036,7 @@ async function handleBookMessage(event) {
   try {
     const progress = await recordBookPage(context.bookId, pageId);
     state.progress.set(context.bookId, progress);
+    await syncBookProgress(progress);
     updateReaderBookmarkButton(context.bookId, pageId);
   } catch (error) {
     announce(`Reading position could not be saved: ${error.message}`, true);
@@ -836,6 +1047,16 @@ document.addEventListener("click", event => {
   const routeLink = event.target.closest("[data-route]");
   if (routeLink) {
     closeSidebar();
+    return;
+  }
+
+  if (event.target.closest("[data-sign-out]")) {
+    void signOut();
+    return;
+  }
+  if (event.target.closest("[data-refresh-leaderboard]")) {
+    state.leaderboard = { status: "idle", entries: [], error: "" };
+    void refreshLeaderboard();
     return;
   }
 
@@ -1023,6 +1244,18 @@ document.addEventListener("input", event => {
 });
 
 document.addEventListener("submit", event => {
+  const authForm = event.target.closest("[data-auth-form]");
+  if (authForm) {
+    event.preventDefault();
+    void submitAuthForm(authForm);
+    return;
+  }
+  const accountSettings = event.target.closest("[data-account-settings]");
+  if (accountSettings) {
+    event.preventDefault();
+    void saveAccountSettings(accountSettings);
+    return;
+  }
   const importForm = event.target.closest("[data-import-details]");
   if (importForm) {
     event.preventDefault();
@@ -1082,6 +1315,7 @@ async function start() {
     state.storageError = `Your browser’s local library could not be opened: ${error.message}`;
   }
   subscribeToRoutes(renderRoute);
+  void initializeSupabase();
 }
 
 start();
